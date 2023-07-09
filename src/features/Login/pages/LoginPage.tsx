@@ -1,53 +1,20 @@
 import React from 'react';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {Button, StyleSheet, View} from 'react-native';
-import auth from '@react-native-firebase/auth';
+import {Button, SafeAreaView, View} from 'react-native';
 
-async function onGoogleButtonPress() {
-  // Check if your device supports Google Play
-  await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-  // Get the users ID token
-  const {idToken} = await GoogleSignin.signIn();
-
-  // Create a Google credential with the token
-  const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-  // Sign-in the user with the credential
-  return auth().signInWithCredential(googleCredential);
-}
-
-GoogleSignin.configure({
-  webClientId:
-    '791972729440-vmh7151kmp52644ipm8ihc6e9beco2hb.apps.googleusercontent.com',
-});
+import {useAppDispatch} from '../../../app/hooks';
+import {signIn} from '../authSlice';
 
 function LoginPage(): JSX.Element {
+  const dispatch = useAppDispatch();
   return (
-    <View style={styles.container}>
-      {/* Code for drawable */}
-      <View style={styles.tiltedRectangle} />
+    <SafeAreaView className="flex-1 bg-teal-100">
+      <View className="flex-1 bg-teal-200 rotate-45" />
       <Button
         title={'Sign in with Google'}
-        onPress={() =>
-          onGoogleButtonPress().then(() =>
-            console.log('Signed in with Google!'),
-          )
-        }
+        onPress={() => dispatch(signIn())}
       />
-    </View>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#073b38',
-  },
-  tiltedRectangle: {
-    flex: 1,
-    backgroundColor: '#117773',
-    transform: [{rotate: '45deg'}],
-  },
-});
 
 export default LoginPage;
