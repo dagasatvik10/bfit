@@ -5,59 +5,20 @@
  * @format
  */
 
-import React, {StrictMode, useEffect, useState} from 'react';
-import auth from '@react-native-firebase/auth';
+import React from 'react';
 
-import {LoginPage} from './src/features';
-import {Button, SafeAreaView, Text, View} from 'react-native';
+import {useAppSelector} from './src/app/hooks';
+import {HomePage, LoginPage} from './src/features';
+import {selectUser} from './src/features/Login/authSlice';
 
 function App(): JSX.Element {
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
+  const user = useAppSelector(selectUser);
 
-  function onAuthStateChange(user) {
-    console.log('hey');
-    setUser(user);
-    if (initializing) {
-      setInitializing(false);
-    }
-  }
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChange);
-    return subscriber;
-  });
-
-  if (initializing) {
-    return null;
-  }
   if (!user) {
-    return (
-      <SafeAreaView className="flex-1">
-        <LoginPage />
-      </SafeAreaView>
-    );
+    return <LoginPage />;
   }
 
-  return (
-    <StrictMode>
-      <SafeAreaView className="flex-1">
-        <View className="flex-1 items-center justify-center">
-          <Text>Welcome {user.displayName}</Text>
-          <Button
-            title={'Sign out'}
-            onPress={() =>
-              auth()
-                .signOut()
-                .then(() => {
-                  console.log('Signed out');
-                })
-            }
-          />
-        </View>
-      </SafeAreaView>
-    </StrictMode>
-  );
+  return <HomePage user={user} />;
 }
 
 export default App;
