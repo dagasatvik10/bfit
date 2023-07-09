@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "791972729440",
+    "project_id": "bfit-392012",
+    "storage_bucket": "bfit-392012.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791972729440:android:62bbeaf7fe9663e5362905",
+        "android_client_info": {
+          "package_name": "com.bfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791972729440-dshhehjthcvfk8i8p9olhcm61m4r4uv2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bfit",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "791972729440-vmh7151kmp52644ipm8ihc6e9beco2hb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOovNzmudRF3F-nxkL1tahFX5QsPecDnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791972729440-vmh7151kmp52644ipm8ihc6e9beco2hb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "791972729440-s5d7avbni0eq1a6l2dhrvuu3i5jpig7a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.bfit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
