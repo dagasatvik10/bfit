@@ -1,7 +1,10 @@
 import React from 'react';
 import {Image, Pressable, SafeAreaView, Text, View} from 'react-native';
+import {useAppDispatch} from '../../../app/hooks';
+import {signOut} from '../../Login/authSlice';
 
 function SelectionDonePage({teamName}: {teamName: string}): JSX.Element {
+  const dispatch = useAppDispatch();
   return (
     <SafeAreaView className="flex-1">
       <View className="basis-1/3 justify-center items-center">
@@ -28,7 +31,7 @@ function SelectionDonePage({teamName}: {teamName: string}): JSX.Element {
         </View>
         <View className="basis-1/4">
           {/* TODO: navigate to home screen */}
-          <Pressable onPress={() => console.log('pressed')}>
+          <Pressable onPress={() => dispatch(signOut())}>
             <View className="rounded-full w-80 bg-[#f9c06c] items-center p-2">
               <Text className="text-2xl font-bold text-black">Let's Go</Text>
             </View>
