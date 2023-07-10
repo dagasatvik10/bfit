@@ -5,21 +5,36 @@
  * @format
  */
 
-import React from 'react';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import React, {useEffect} from 'react';
 
 import {useAppSelector} from './src/app/hooks';
-import {HomePage, LoginPage, SelectionDonePage} from './src/features';
+import {LoginPage, SelectionDonePage} from './src/features';
 import {selectUser} from './src/features/Login/authSlice';
+import {onUserSignIn} from './src/lib/auth';
 
 function App(): JSX.Element {
   const user = useAppSelector(selectUser);
+
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged(
+      (authUser: FirebaseAuthTypes.User | null) => {
+        if (authUser) {
+          onUserSignIn(authUser).catch(error => {
+            console.info('Error: ', error);
+          });
+        }
+      },
+    );
+    return () => unsubscribe();
+  }, []);
 
   if (!user) {
     return <LoginPage />;
   }
 
   // return <HomePage user={user} />;
-  return <SelectionDonePage />;
+  return <SelectionDonePage teamName="Three" />;
 }
 
 export default App;
