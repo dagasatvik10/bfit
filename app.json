@@ -1,4 +1,7 @@
 {
   "name": "bfit",
-  "displayName": "bfit"
+  "displayName": "bfit",
+  "auth": {
+    "webClientId": "791972729440-vmh7151kmp52644ipm8ihc6e9beco2hb.apps.googleusercontent.com"
+  }
 }
