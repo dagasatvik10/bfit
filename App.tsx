@@ -10,7 +10,7 @@ import React, {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 
 import {useAppSelector} from './src/app/hooks';
-import {LoginPage, SelectionDonePage} from './src/features';
+import {HomePage, LoginPage} from './src/features';
 import {selectUser} from './src/features/Login/authSlice';
 import {onUserSignIn} from './src/lib/auth';
 
@@ -38,8 +38,8 @@ function App(): JSX.Element {
     return <LoginPage />;
   }
 
-  // return <HomePage user={user} />;
-  return <SelectionDonePage teamName="Three" />;
+  return <HomePage user={user} />;
+  // return <SelectionDonePage teamName="Three" />;
 }
 
 export default App;
