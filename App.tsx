@@ -8,7 +8,7 @@
 import React from 'react';
 
 import {useAppSelector} from './src/app/hooks';
-import {HomePage, LoginPage} from './src/features';
+import {HomePage, LoginPage, SelectionDonePage} from './src/features';
 import {selectUser} from './src/features/Login/authSlice';
 
 function App(): JSX.Element {
@@ -18,7 +18,8 @@ function App(): JSX.Element {
     return <LoginPage />;
   }
 
-  return <HomePage user={user} />;
+  // return <HomePage user={user} />;
+  return <SelectionDonePage />;
 }
 
 export default App;
