@@ -7,6 +7,7 @@
 
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import React, {useEffect} from 'react';
+import SplashScreen from 'react-native-splash-screen';
 
 import {useAppSelector} from './src/app/hooks';
 import {LoginPage, SelectionDonePage} from './src/features';
@@ -15,6 +16,10 @@ import {onUserSignIn} from './src/lib/auth';
 
 function App(): JSX.Element {
   const user = useAppSelector(selectUser);
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(
