@@ -1,5 +1,12 @@
 import React, {FC} from 'react';
-import {Button, SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {
+  Button,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 
 import {useAppDispatch} from '../../../app/hooks';
 import Header from '../../../components/layout/header';
@@ -15,11 +22,16 @@ const HomePage: FC<Props> = ({user}) => {
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
         <Header user={user} />
-        <View className="flex-1 items-center justify-center">
-          <Text>Welcome {user.displayName}</Text>
-
-          <Button title={'Sign out'} onPress={() => dispatch(signOut())} />
+        <View>
+          <Image
+            className="rounded w-full h-52"
+            source={require('../assets/images/workshop.webp')}
+          />
         </View>
+
+        <Text>Welcome {user.displayName}</Text>
+
+        <Button title={'Sign out'} onPress={() => dispatch(signOut())} />
       </ScrollView>
     </SafeAreaView>
   );
