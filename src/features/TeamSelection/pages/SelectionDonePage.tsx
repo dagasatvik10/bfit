@@ -15,7 +15,7 @@ function SelectionDonePage({teamName}: {teamName: string}): JSX.Element {
         </View>
         <View className="flex-1 pt-5 justify-start">
           <View className="rounded-full w-48 bg-[#FFF2E2] items-center px-3 py-2">
-            <Text className="text-3xl font-bold">
+            <Text className="text-3xl font-bold text-black">
               Team {teamName || 'Four'}
             </Text>
           </View>
