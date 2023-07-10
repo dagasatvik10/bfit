@@ -9,7 +9,7 @@ interface Props {
 
 const Header: FC<Props> = ({user}) => {
   return (
-    <View className="flex flex-row justify-between pb-4">
+    <View className="flex flex-row justify-between pb-2">
       <View className="flex flex-row w-1/3 justify-start items-center">
         <Image
           source={{uri: user.photoURL!}}
