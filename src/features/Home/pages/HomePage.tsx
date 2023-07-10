@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {
   Image,
+  ImageBackground,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -64,6 +65,28 @@ const HomePage: FC<Props> = ({user}) => {
               </Pressable>
             </View>
           </View>
+        </View>
+        {/* Health Tips */}
+        <View className="py-2 mb-4 h-60 w-full">
+          <ImageBackground
+            className="h-full flex flex-col w-full rounded-2xl justify-center"
+            source={require('../assets/images/health_bg.webp')}>
+            <View className="flex flex-col px-8 justify-center">
+              <View className="flex flex-row justify-start">
+                <Text className="text-white text-xl font-bold">
+                  Today's health tip
+                </Text>
+              </View>
+              <View className="border-b-2 border-white" />
+              <View>
+                <Text className="text-white text-lg font-normal py-2">
+                  Eat a balanced diet, stay hydrated, exercise regularly, get
+                  enough sleep, and practice good hygiene for overall health and
+                  well-being.
+                </Text>
+              </View>
+            </View>
+          </ImageBackground>
         </View>
       </ScrollView>
     </SafeAreaView>
