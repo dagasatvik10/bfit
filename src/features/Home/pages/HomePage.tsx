@@ -12,6 +12,7 @@ import {
 import Header from '../../../components/layout/header';
 import {AuthUser} from '../../Login/authSlice';
 import {CurrentActivity} from '../../../components/Activity';
+import {TeamPill} from '../../../components/Team';
 
 const SectionTitle: FC<{title: string}> = ({title}) => {
   return (
@@ -101,23 +102,13 @@ const HomePage: FC<Props> = ({user}) => {
                 Your Team Position: 2
               </Text>
               {TEAMS.map((team, index) => (
-                <View
+                <TeamPill
                   key={team.name}
-                  className="flex flex-row justify-start items-center rounded-xl w-full h-16 bg-white">
-                  <View className="flex flex-col justify-center items-center rounded-full bg-[#f7b500] h-10 w-10 mx-4">
-                    <Text className="text-sm text-center font-bold">
-                      {index + 1}
-                    </Text>
-                  </View>
-                  <View className="flex-2 flex-col items-start justify-center">
-                    <Text className="text-base text-black font-bold">
-                      {team.name}
-                    </Text>
-                    <Text className="text-black text-sm">
-                      {team.points} Points
-                    </Text>
-                  </View>
-                </View>
+                  name={team.name}
+                  points={team.points}
+                  index={index}
+                  isCurrent={team.name === 'Team Four'}
+                />
               ))}
             </View>
           </View>
