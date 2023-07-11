@@ -7,6 +7,7 @@ import React, {StrictMode} from 'react';
 import {AppRegistry} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
+import {NavigationContainer} from '@react-navigation/native';
 
 import App from './App';
 import {name as appName, auth} from './app.json';
@@ -18,7 +19,9 @@ AppRegistry.registerComponent(appName, () => () => (
   <StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <App />
+        <NavigationContainer>
+          <App />
+        </NavigationContainer>
       </PersistGate>
     </Provider>
   </StrictMode>

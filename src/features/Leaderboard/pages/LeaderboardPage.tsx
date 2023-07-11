@@ -2,12 +2,7 @@ import React, {FC} from 'react';
 import {SafeAreaView, ScrollView, Text, View} from 'react-native';
 
 import Header from '../../../components/layout/header';
-import {AuthUser} from '../../Login/authSlice';
 import {TeamPill} from '../../../components/Team';
-
-interface Props {
-  user: AuthUser;
-}
 
 const TEAMS = [
   {
@@ -32,11 +27,11 @@ const TEAMS = [
   },
 ];
 
-const LeaderboardPage: FC<Props> = ({user}) => {
+const LeaderboardPage: FC = () => {
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
-        <Header user={user} />
+        <Header />
         <View className="flex flex-col py-2">
           {/* Leaderboard */}
           <View className="py-2 flex flex-col justify-between items-start">

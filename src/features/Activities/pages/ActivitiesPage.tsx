@@ -3,11 +3,6 @@ import {SafeAreaView, ScrollView, Text, View} from 'react-native';
 
 import {CurrentActivity, PastActivity} from '../../../components/Activity';
 import Header from '../../../components/layout/header';
-import {AuthUser} from '../../Login/authSlice';
-
-interface Props {
-  user: AuthUser;
-}
 
 const CURRENT_ACTIVITIES = [
   {
@@ -39,11 +34,11 @@ const PAST_ACTIVITIES = [
   },
 ];
 
-const ActivitiesPage: FC<Props> = ({user}) => {
+const ActivitiesPage: FC = () => {
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
-        <Header user={user} />
+        <Header />
         <View className="flex flex-col py-2">
           {/* Activities */}
           <View className="flex flex-col justify-between items-start">
