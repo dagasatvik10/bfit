@@ -3,7 +3,6 @@ package com.bfit;
 import android.os.Bundle; // splash screen
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen; // splash screen
-import com.cboy.rn.splashscreen.SplashScreen; // splash screen
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
