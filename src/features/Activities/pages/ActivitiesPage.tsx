@@ -3,38 +3,12 @@ import {SafeAreaView, ScrollView, Text, View} from 'react-native';
 
 import {CurrentActivity, PastActivity} from '../../../components/Activity';
 import Header from '../../../components/layout/header';
-
-const CURRENT_ACTIVITIES = [
-  {
-    title: 'Challenge 3',
-    description: '8-10 Glasses of water today?',
-    points: 50,
-    done: false,
-  },
-  {
-    title: 'Challenge 4',
-    description: 'Did you Sleep 6-8 hours today?',
-    points: 50,
-    done: false,
-  },
-];
-
-const PAST_ACTIVITIES = [
-  {
-    title: 'Challenge 1',
-    description: '8-10 Glasses of water today?',
-    points: 50,
-    done: true,
-  },
-  {
-    title: 'Challenge 2',
-    description: 'Did you Sleep 6-8 hours today?',
-    points: 50,
-    done: false,
-  },
-];
+import {useAppSelector} from '../../../app/hooks';
+import {selectCurrentActivities, selectPastActivities} from '../activitySlice';
 
 const ActivitiesPage: FC = () => {
+  const currentActivities = useAppSelector(selectCurrentActivities);
+  const pastActivities = useAppSelector(selectPastActivities);
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
@@ -49,19 +23,21 @@ const ActivitiesPage: FC = () => {
             <Text className="text-[#424242] text-base font-medium">
               Active challenge of this week
             </Text>
-            {CURRENT_ACTIVITIES.map(activity => (
+            {currentActivities.map(activity => (
               <CurrentActivity key={activity.title} {...activity} />
             ))}
           </View>
           {/* Past Activities */}
-          <View className="py-2 flex flex-col justify-evenly">
-            <Text className="text-[#424242] text-base font-medium">
-              Past challenge
-            </Text>
-            {PAST_ACTIVITIES.map(activity => (
-              <PastActivity key={activity.title} {...activity} />
-            ))}
-          </View>
+          {pastActivities.length > 0 && (
+            <View className="py-2 flex flex-col justify-evenly">
+              <Text className="text-[#424242] text-base font-medium">
+                Past challenge
+              </Text>
+              {pastActivities.map(activity => (
+                <PastActivity key={activity.title} {...activity} />
+              ))}
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

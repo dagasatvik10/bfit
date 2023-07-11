@@ -13,6 +13,8 @@ import {useNavigation} from '@react-navigation/native';
 import {CurrentActivity} from '../../../components/Activity';
 import {TeamPill} from '../../../components/Team';
 import Header from '../../../components/layout/header';
+import {selectCurrentActivities} from '../../Activities/activitySlice';
+import {useAppSelector} from '../../../app/hooks';
 // import {useAppDispatch} from '../../../app/hooks';
 // import {signOut} from '../../Login/authSlice';
 
@@ -53,6 +55,7 @@ const TEAMS = [
 ];
 
 const HomePage: FC = () => {
+  const currentActivities = useAppSelector(selectCurrentActivities);
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
@@ -68,10 +71,10 @@ const HomePage: FC = () => {
         <View className="py-2 flex flex-col">
           <SectionTitle title="Active Challenge" navigateTo="Activities" />
           <CurrentActivity
-            title="Challenge 3"
-            description="8-10 Glasses of water today?"
-            points={50}
-            done={false}
+            title={currentActivities[0].title}
+            description={currentActivities[0].description}
+            points={currentActivities[0].points}
+            done={currentActivities[0].done}
           />
         </View>
         {/* Health Tips */}

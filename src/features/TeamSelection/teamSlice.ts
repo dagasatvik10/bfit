@@ -33,7 +33,10 @@ const initialState: TeamState = {
       points: 0,
     },
   ],
-  selectedTeam: null,
+  selectedTeam: {
+    name: 'Team 3',
+    points: 0,
+  },
 };
 
 export const teamSlice = createSlice({

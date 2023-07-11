@@ -1,5 +1,7 @@
 import React, {FC} from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
+import {useAppDispatch} from '../../app/hooks';
+import {completeActivity} from '../../features/Activities/activitySlice';
 
 interface Props {
   title: string;
@@ -14,6 +16,7 @@ export const CurrentActivity: FC<Props> = ({
   points,
   done,
 }) => {
+  const dispatch = useAppDispatch();
   return (
     <View className="my-4 py-4 px-4 bg-[#fef8f1] h-48 rounded-2xl shadow flex flex-col justify-between w-full">
       <View className="flex flex-row justify-between py-2">
@@ -27,15 +30,19 @@ export const CurrentActivity: FC<Props> = ({
         <Text className="text-base text-black font-normal">{description}</Text>
       </View>
       <View className="w-full py-2">
-        {/* TODO: dispatch activity done action */}
-        <Pressable
-          className="w-full flex flex-row items-center justify-center"
-          onPress={() => console.log(`${title} done`)}
-          disabled={done}>
+        {done ? (
           <View className="rounded-full bg-[#018e89] items-center p-2 w-full">
-            <Text className="text-base font-bold text-white">Yes</Text>
+            <Text className="text-base font-bold text-white">Completed</Text>
           </View>
-        </Pressable>
+        ) : (
+          <Pressable
+            className="w-full flex flex-row items-center justify-center"
+            onPress={() => dispatch(completeActivity(title))}>
+            <View className="rounded-full bg-[#018e89] items-center p-2 w-full">
+              <Text className="text-base font-bold text-white">Yes</Text>
+            </View>
+          </Pressable>
+        )}
       </View>
     </View>
   );
