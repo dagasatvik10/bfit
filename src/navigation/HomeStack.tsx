@@ -1,16 +1,27 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 
-import {HomePage, LeaderboardPage} from '../features';
+import {HomePage, LeaderboardPage, SelectionDonePage} from '../features';
 
-const Stack = createNativeStackNavigator();
+export type HomeStackParamList = {
+  SelectionDone: undefined;
+  Home: undefined;
+  Leaderboard: undefined;
+};
+
+const Stack = createNativeStackNavigator<HomeStackParamList>();
 
 export const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="SelectionDone"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="HomeTab" component={HomePage} />
+      <Stack.Screen name="Home" component={HomePage} />
+      <Stack.Screen
+        name="SelectionDone"
+        component={SelectionDonePage}
+        options={{navigationBarHidden: true}}
+      />
       <Stack.Screen name="Leaderboard" component={LeaderboardPage} />
     </Stack.Navigator>
   );

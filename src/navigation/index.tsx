@@ -29,7 +29,7 @@ const DefaultNavigation = () => {
   return (
     <Tab.Navigator screenOptions={{headerShown: false}} initialRouteName="Home">
       <Tab.Screen
-        name="Home"
+        name="HomeStack"
         component={HomeStack}
         options={{
           tabBarIcon: HomeBarIcon,

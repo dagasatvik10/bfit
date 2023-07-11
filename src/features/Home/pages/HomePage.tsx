@@ -21,7 +21,6 @@ const SectionTitle: FC<{title: string; navigateTo: string}> = ({
   navigateTo,
 }) => {
   const navigation = useNavigation();
-  // const dispatch = useAppDispatch();
   return (
     <View className="py-2 flex flex-row justify-between">
       <Text className="text-base text-[#424242] font-medium">{title}</Text>
