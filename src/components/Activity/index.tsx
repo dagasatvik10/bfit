@@ -15,8 +15,8 @@ export const CurrentActivity: FC<Props> = ({
   done,
 }) => {
   return (
-    <View className="my-4 py-4 bg-[#fef8f1] h-48 rounded-2xl shadow flex flex-col justify-between w-full">
-      <View className="flex flex-row justify-between px-4 py-2">
+    <View className="my-4 py-4 px-4 bg-[#fef8f1] h-48 rounded-2xl shadow flex flex-col justify-between w-full">
+      <View className="flex flex-row justify-between py-2">
         <Text className="text-black font-bold text-base">{title}</Text>
         <View className="flex flex-row items-center justify-around">
           <Text className="text-xs">{points} points</Text>
@@ -32,7 +32,7 @@ export const CurrentActivity: FC<Props> = ({
           className="w-full flex flex-row items-center justify-center"
           onPress={() => console.log(`${title} done`)}
           disabled={done}>
-          <View className="rounded-full bg-[#018e89] items-center p-2 w-3/4">
+          <View className="rounded-full bg-[#018e89] items-center p-2 w-full">
             <Text className="text-base font-bold text-white">Yes</Text>
           </View>
         </Pressable>
