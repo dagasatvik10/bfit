@@ -23,11 +23,18 @@ const ActivitiesBarIcon = () => {
   );
 };
 
-const Tab = createBottomTabNavigator();
+export type RootTabParamList = {
+  HomeStack: undefined;
+  Activities: undefined;
+};
+
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const DefaultNavigation = () => {
   return (
-    <Tab.Navigator screenOptions={{headerShown: false}} initialRouteName="Home">
+    <Tab.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName="HomeStack">
       <Tab.Screen
         name="HomeStack"
         component={HomeStack}

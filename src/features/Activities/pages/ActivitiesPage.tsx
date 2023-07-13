@@ -1,5 +1,6 @@
 import React, {FC} from 'react';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {CurrentActivity, PastActivity} from '../../../components/Activity';
 import Header from '../../../components/layout/header';

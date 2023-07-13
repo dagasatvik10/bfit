@@ -8,6 +8,7 @@ import {AppRegistry} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {NavigationContainer} from '@react-navigation/native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import App from './App';
 import {name as appName, auth} from './app.json';
@@ -20,7 +21,9 @@ AppRegistry.registerComponent(appName, () => () => (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <App />
+          <SafeAreaProvider>
+            <App />
+          </SafeAreaProvider>
         </NavigationContainer>
       </PersistGate>
     </Provider>

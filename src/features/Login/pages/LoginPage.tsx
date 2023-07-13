@@ -1,6 +1,7 @@
-import React from 'react';
-import {Image, ImageBackground, SafeAreaView, Text, View} from 'react-native';
 import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
+import React from 'react';
+import {Image, ImageBackground, Text, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {useAppDispatch} from '../../../app/hooks';
 import {signIn} from '../authSlice';

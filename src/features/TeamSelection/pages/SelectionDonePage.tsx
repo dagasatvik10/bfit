@@ -1,6 +1,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {FC} from 'react';
-import {Image, Pressable, SafeAreaView, Text, View} from 'react-native';
+import {Image, Pressable, Text, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {useAppSelector} from '../../../app/hooks';
 import {HomeStackParamList} from '../../../navigation/HomeStack';
