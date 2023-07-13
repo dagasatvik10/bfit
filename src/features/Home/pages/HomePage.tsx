@@ -1,4 +1,5 @@
-import React, {FC} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {FC, useMemo} from 'react';
 import {
   Image,
   ImageBackground,
@@ -8,15 +9,17 @@ import {
   Text,
   View,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
+import {useAppSelector} from '../../../app/hooks';
 import {CurrentActivity} from '../../../components/Activity';
 import {TeamPill} from '../../../components/Team';
 import Header from '../../../components/layout/header';
 import {selectCurrentActivities} from '../../Activities/activitySlice';
-import {useAppSelector} from '../../../app/hooks';
-// import {useAppDispatch} from '../../../app/hooks';
-// import {signOut} from '../../Login/authSlice';
+import {
+  selectAllTeams,
+  selectSelectedTeam,
+} from '../../TeamSelection/teamSlice';
+import {getTeamPosition, sortTeams} from '../utils';
 
 const SectionTitle: FC<{title: string; navigateTo: string}> = ({
   title,
@@ -35,27 +38,16 @@ const SectionTitle: FC<{title: string; navigateTo: string}> = ({
   );
 };
 
-const TEAMS = [
-  {
-    name: 'Team One',
-    points: 200,
-  },
-  {
-    name: 'Team Four',
-    points: 100,
-  },
-  {
-    name: 'Team Two',
-    points: 50,
-  },
-  {
-    name: 'Team Three',
-    points: 50,
-  },
-];
-
 const HomePage: FC = () => {
   const currentActivities = useAppSelector(selectCurrentActivities);
+  const selectedTeam = useAppSelector(selectSelectedTeam);
+  const allTeams = useAppSelector(selectAllTeams);
+
+  const allTeamsSorted = useMemo(() => sortTeams(allTeams), [allTeams]);
+  const teamPosition = useMemo(
+    () => getTeamPosition(allTeamsSorted, selectedTeam!),
+    [allTeamsSorted, selectedTeam],
+  );
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
@@ -105,15 +97,15 @@ const HomePage: FC = () => {
           <View className="pt-2 pb-4 flex flex-col bg-[#f5f5f5] rounded-xl shadow-2xl w-full h-[400px]">
             <View className="h-full flex flex-col px-6 justify-evenly">
               <Text className="text-base text-[#424242] font-bold">
-                Your Team Position: 2
+                Your Team Position: {teamPosition}
               </Text>
-              {TEAMS.map((team, index) => (
+              {allTeamsSorted.slice(0, 4).map((team, index) => (
                 <TeamPill
                   key={team.name}
                   name={team.name}
                   points={team.points}
                   index={index}
-                  isCurrent={team.name === 'Team Four'}
+                  isCurrent={team.name === selectedTeam?.name}
                 />
               ))}
             </View>
