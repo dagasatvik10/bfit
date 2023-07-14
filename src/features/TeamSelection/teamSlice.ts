@@ -13,15 +13,15 @@ export interface TeamState {
 const initialState: TeamState = {
   allTeams: [
     {
-      name: 'Team 1',
-      points: 0,
-    },
-    {
       name: 'Team 2',
       points: 0,
     },
     {
-      name: 'Team 3',
+      name: 'Team 1',
+      points: 0,
+    },
+    {
+      name: 'Team 5',
       points: 0,
     },
     {
@@ -29,15 +29,11 @@ const initialState: TeamState = {
       points: 0,
     },
     {
-      name: 'Team 5',
+      name: 'Team 3',
       points: 0,
     },
   ],
   selectedTeam: null,
-  // selectedTeam: {
-  //   name: 'Team 3',
-  //   points: 0,
-  // },
 };
 
 export const teamSlice = createSlice({
