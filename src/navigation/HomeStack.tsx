@@ -1,12 +1,18 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 
-import {HomePage, LeaderboardPage, SelectionDonePage} from '../features';
+import {
+  HomePage,
+  LeaderboardPage,
+  PointsHistoryPage,
+  SelectionDonePage,
+} from '../features';
 
 export type HomeStackParamList = {
   SelectionDone: undefined;
   Home: undefined;
   Leaderboard: undefined;
+  PointsHistory: undefined;
 };
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -23,6 +29,7 @@ export const HomeStack = () => {
         options={{navigationBarHidden: true}}
       />
       <Stack.Screen name="Leaderboard" component={LeaderboardPage} />
+      <Stack.Screen name="PointsHistory" component={PointsHistoryPage} />
     </Stack.Navigator>
   );
 };

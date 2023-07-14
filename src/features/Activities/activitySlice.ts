@@ -15,6 +15,20 @@ export interface ActivityState {
 const initialState: ActivityState = {
   currentActivities: [
     {
+      title: 'Challenge 3',
+      description: '8-10 Glasses of water today?',
+      points: 50,
+      done: false,
+    },
+    {
+      title: 'Challenge 4',
+      description: 'Did you Sleep 6-8 hours today?',
+      points: 50,
+      done: false,
+    },
+  ],
+  pastActivities: [
+    {
       title: 'Challenge 1',
       description: '8-10 Glasses of water today?',
       points: 50,
@@ -24,10 +38,9 @@ const initialState: ActivityState = {
       title: 'Challenge 2',
       description: 'Did you Sleep 6-8 hours today?',
       points: 50,
-      done: false,
+      done: true,
     },
   ],
-  pastActivities: [],
 };
 
 export const activitySlice = createSlice({

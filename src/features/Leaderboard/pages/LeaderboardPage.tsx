@@ -4,6 +4,11 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 import Header from '../../../components/layout/header';
 import {TeamPill} from '../../../components/Team';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {HomeStackParamList} from '../../../navigation/HomeStack';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {RootTabParamList} from '../../../navigation';
 
 const TEAMS = [
   {
@@ -28,11 +33,16 @@ const TEAMS = [
   },
 ];
 
-const LeaderboardPage: FC = () => {
+type Props = CompositeScreenProps<
+  NativeStackScreenProps<HomeStackParamList, 'Leaderboard'>,
+  BottomTabScreenProps<RootTabParamList>
+>;
+
+const LeaderboardPage: FC<Props> = ({navigation}) => {
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
-        <Header />
+        <Header navigate={() => navigation.navigate('PointsHistory')} />
         <View className="flex flex-col py-2">
           {/* Leaderboard */}
           <View className="py-2 flex flex-col justify-between items-start">

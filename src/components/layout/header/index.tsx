@@ -1,21 +1,22 @@
 import React, {FC} from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
 
-import {selectUser, signOut} from '../../../features/Login/authSlice';
-import {useAppDispatch, useAppSelector} from '../../../app/hooks';
+import {useAppSelector} from '../../../app/hooks';
 import {selectCurrentActivities} from '../../../features/Activities/activitySlice';
+import {selectUser} from '../../../features/Login/authSlice';
 
-const Header: FC = () => {
-  const dispatch = useAppDispatch();
+type Props = {
+  navigate: () => void;
+};
+const Header: FC<Props> = ({navigate}) => {
   const user = useAppSelector(selectUser);
   const currentActivities = useAppSelector(selectCurrentActivities);
   return (
     user && (
       <View className="flex flex-row justify-between pb-2">
-        {/* FIXME: remove sign out and navigate to points history screen */}
         <Pressable
           className="flex flex-row w-1/3 justify-start items-center"
-          onPress={() => dispatch(signOut())}>
+          onPress={() => navigate()}>
           <Image
             source={{uri: user.photoURL!}}
             className="w-[50px] h-[50px] rounded-full"

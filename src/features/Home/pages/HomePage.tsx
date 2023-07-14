@@ -60,7 +60,7 @@ const HomePage: FC<Props> = ({navigation}) => {
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
-        <Header />
+        <Header navigate={() => navigation.navigate('PointsHistory')} />
         {/* Activity Image */}
         <View className="py-2">
           <Image
