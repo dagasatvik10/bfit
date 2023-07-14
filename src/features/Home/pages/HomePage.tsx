@@ -18,12 +18,12 @@ import {TeamPill} from '../../../components/Team';
 import Header from '../../../components/layout/header';
 import {RootTabParamList} from '../../../navigation';
 import {HomeStackParamList} from '../../../navigation/HomeStack';
+import {getTeamPosition, sortTeams} from '../../../utils';
 import {selectCurrentActivities} from '../../Activities/activitySlice';
 import {
   selectAllTeams,
   selectSelectedTeam,
 } from '../../TeamSelection/teamSlice';
-import {getTeamPosition, sortTeams} from '../utils';
 
 type SectionTitleProps = {
   title: string;
