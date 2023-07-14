@@ -55,6 +55,7 @@ export const SelectTeamPage = () => {
           source={require('../assets/images/arrow.webp')}
         />
         <Animated.Image
+          className="pb-2"
           style={{
             transform: [{rotate: rotateData}, {perspective: 1000}],
           }}
