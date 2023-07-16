@@ -1,7 +1,7 @@
 import {combineReducers} from '@reduxjs/toolkit';
 
 import activityReducer from '../features/Activities/activitySlice';
-import authReducer from '../features/Login/authSlice';
+import authReducer from '../features/Auth/authSlice';
 import teamReducer from '../features/TeamSelection/teamSlice';
 import {firestoreApi} from './firestoreApi';
 

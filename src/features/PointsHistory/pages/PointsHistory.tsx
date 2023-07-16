@@ -6,7 +6,7 @@ import Header from '../../../components/layout/header';
 import {Activity, selectPastActivities} from '../../Activities/activitySlice';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import {selectSelectedTeam} from '../../TeamSelection/teamSlice';
-import {signOut} from '../../Login/authSlice';
+import {signOut} from '../../Auth/authSlice';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../../navigation/HomeStack';

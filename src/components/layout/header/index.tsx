@@ -3,7 +3,7 @@ import {Image, Pressable, Text, View} from 'react-native';
 
 import {useAppSelector} from '../../../app/hooks';
 import {selectCurrentActivities} from '../../../features/Activities/activitySlice';
-import {selectUser} from '../../../features/Login/authSlice';
+import {selectUser} from '../../../features/Auth/authSlice';
 
 type Props = {
   navigate: () => void;

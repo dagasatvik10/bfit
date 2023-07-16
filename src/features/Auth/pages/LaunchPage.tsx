@@ -5,7 +5,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {AuthStackParamList} from '../../../navigation/AuthStack';
 
-type Props = NativeStackScreenProps<AuthStackParamList>;
+type Props = NativeStackScreenProps<AuthStackParamList, 'Launch'>;
 
 const LaunchPage: FC<Props> = ({navigation}) => {
   return (
@@ -28,7 +28,7 @@ const LaunchPage: FC<Props> = ({navigation}) => {
         </View>
         <View className="flex-1 justify-center items-center w-screen px-8">
           <Pressable
-            onPress={() => navigation.navigate('Login')}
+            onPress={() => navigation.navigate('Signup')}
             className="bg-white w-full h-16 rounded-full flex flex-row justify-center items-center border-[#979797] border-2">
             <Text className="text-black font-bold text-base">Get Started</Text>
           </Pressable>
