@@ -15,6 +15,7 @@ import {onUserSignIn} from './src/lib/auth';
 import Navigation from './src/navigation';
 import {LoginPage, SelectTeamPage} from './src/features';
 import {selectSelectedTeam} from './src/features/TeamSelection/teamSlice';
+import {AuthStack} from './src/navigation/AuthStack';
 
 function App(): JSX.Element {
   const user = useAppSelector(selectUser);
@@ -38,7 +39,7 @@ function App(): JSX.Element {
   }, []);
 
   if (!user) {
-    return <LoginPage />;
+    return <AuthStack />;
   }
 
   if (!selectedTeam) {

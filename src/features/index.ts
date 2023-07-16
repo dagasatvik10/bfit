@@ -1,6 +1,7 @@
 export {default as ActivitiesPage} from './Activities/pages/ActivitiesPage';
 export {default as HomePage} from './Home/pages/HomePage';
 export {default as LeaderboardPage} from './Leaderboard/pages/LeaderboardPage';
+export {default as LaunchPage} from './Login/pages/LaunchPage';
 export {default as LoginPage} from './Login/pages/LoginPage';
 export {default as PointsHistoryPage} from './PointsHistory/pages/PointsHistory';
 export {default as SelectTeamPage} from './TeamSelection/pages/SelectTeamPage';
