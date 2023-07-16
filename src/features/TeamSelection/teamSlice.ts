@@ -13,11 +13,19 @@ export interface TeamState {
 const initialState: TeamState = {
   allTeams: [
     {
-      name: 'Team 2',
+      name: 'Team 1',
       points: 0,
     },
     {
-      name: 'Team 1',
+      name: 'Team 8',
+      points: 0,
+    },
+    {
+      name: 'Team 7',
+      points: 0,
+    },
+    {
+      name: 'Team 6',
       points: 0,
     },
     {
@@ -30,6 +38,10 @@ const initialState: TeamState = {
     },
     {
       name: 'Team 3',
+      points: 0,
+    },
+    {
+      name: 'Team 2',
       points: 0,
     },
   ],
