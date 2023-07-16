@@ -11,6 +11,7 @@ import {
   persistStore,
 } from 'redux-persist';
 
+import {firestoreApi} from './firestoreApi';
 import rootReducer from './reducers';
 
 // set up redux persist
@@ -29,7 +30,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(firestoreApi.middleware),
 });
 
 export const persistor = persistStore(store);
