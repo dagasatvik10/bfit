@@ -1,14 +1,22 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Button, TextInput} from 'react-native-paper';
+import {useCreateUserMutation} from '../slices/userSlice';
 
 const SignupPage: FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [hidePassword, setHidePassword] = useState(true);
+
+  const [createUser] = useCreateUserMutation();
+
+  const handleSignup = useCallback(async () => {
+    if (name && email && password) {
+      await createUser({name, email, password}).unwrap();
+    }
+  }, [createUser, name, email, password]);
 
   return (
     <SafeAreaView className="container flex-1">
@@ -56,6 +64,7 @@ const SignupPage: FC = () => {
             onChangeText={text => setPassword(text)}
           />
           <Button
+            onPress={handleSignup}
             className="my-4"
             mode="contained"
             buttonColor="#f9c06c"

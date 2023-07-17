@@ -16,14 +16,12 @@ import {useAppSelector} from '../../../app/hooks';
 import {CurrentActivity} from '../../../components/Activity';
 import {TeamPill} from '../../../components/Team';
 import Header from '../../../components/layout/header';
-import {RootTabParamList} from '../../../navigation';
 import {HomeStackParamList} from '../../../navigation/HomeStack';
+import {RootTabParamList} from '../../../navigation/HomeTab';
 import {getTeamPosition, sortTeams} from '../../../utils';
 import {selectCurrentActivities} from '../../Activities/activitySlice';
-import {
-  selectAllTeams,
-  selectSelectedTeam,
-} from '../../TeamSelection/teamSlice';
+import {selectAuthUser} from '../../Auth/slices/userSlice';
+import {teamsApi, useFetchTeamsQuery} from '../../TeamSelection/teamSlice';
 
 type SectionTitleProps = {
   title: string;
@@ -48,14 +46,18 @@ type Props = CompositeScreenProps<
 >;
 
 const HomePage: FC<Props> = ({navigation}) => {
+  const user = useAppSelector(selectAuthUser);
   const currentActivities = useAppSelector(selectCurrentActivities);
-  const selectedTeam = useAppSelector(selectSelectedTeam);
-  const allTeams = useAppSelector(selectAllTeams);
+  const selectedTeamData = useAppSelector(
+    teamsApi.endpoints.fetchTeamByTeamId.select(user?.teamId!),
+  );
+  const {data: allTeams = []} = useFetchTeamsQuery();
 
-  const allTeamsSorted = useMemo(() => sortTeams(allTeams), [allTeams]);
+  const allTeamsSorted = useMemo(() => sortTeams(allTeams.slice()), [allTeams]);
+
   const teamPosition = useMemo(
-    () => getTeamPosition(allTeamsSorted, selectedTeam!),
-    [allTeamsSorted, selectedTeam],
+    () => getTeamPosition(allTeamsSorted, selectedTeamData.data!),
+    [allTeamsSorted, selectedTeamData],
   );
   return (
     <SafeAreaView className="flex-1 container">
@@ -116,11 +118,11 @@ const HomePage: FC<Props> = ({navigation}) => {
               </Text>
               {allTeamsSorted.slice(0, 4).map((team, index) => (
                 <TeamPill
-                  key={team.name}
+                  key={team.id}
                   name={team.name}
                   points={team.points}
                   index={index}
-                  isCurrent={team.name === selectedTeam?.name}
+                  isCurrent={team.id === selectedTeamData?.data?.id}
                 />
               ))}
             </View>

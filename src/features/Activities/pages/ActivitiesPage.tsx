@@ -1,21 +1,15 @@
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import React, {FC} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
+import {useAppSelector} from '../../../app/hooks';
 import {CurrentActivity, PastActivity} from '../../../components/Activity';
 import Header from '../../../components/layout/header';
-import {useAppSelector} from '../../../app/hooks';
+import {RootTabParamList} from '../../../navigation/HomeTab';
 import {selectCurrentActivities, selectPastActivities} from '../activitySlice';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {RootTabParamList} from '../../../navigation';
-import {HomeStackParamList} from '../../../navigation/HomeStack';
 
-type Props = CompositeScreenProps<
-  NativeStackScreenProps<HomeStackParamList, 'Home'>,
-  BottomTabScreenProps<RootTabParamList>
->;
+type Props = BottomTabScreenProps<RootTabParamList>;
 
 const ActivitiesPage: FC<Props> = ({navigation}) => {
   const currentActivities = useAppSelector(selectCurrentActivities);
@@ -23,7 +17,7 @@ const ActivitiesPage: FC<Props> = ({navigation}) => {
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
-        <Header navigate={() => navigation.navigate('PointsHistory')} />
+        <Header navigate={() => navigation.navigate('HomeStack')} />
         <View className="flex flex-col py-2">
           {/* Activities */}
           <View className="flex flex-col justify-between items-start">

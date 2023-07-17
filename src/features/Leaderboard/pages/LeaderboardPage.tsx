@@ -8,14 +8,12 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAppSelector} from '../../../app/hooks';
 import {TeamPill} from '../../../components/Team';
 import Header from '../../../components/layout/header';
-import {RootTabParamList} from '../../../navigation';
 import {HomeStackParamList} from '../../../navigation/HomeStack';
+import {RootTabParamList} from '../../../navigation/HomeTab';
+import {Team} from '../../../types';
 import {getTeamPosition, sortTeams} from '../../../utils';
-import {
-  Team,
-  selectAllTeams,
-  selectSelectedTeam,
-} from '../../TeamSelection/teamSlice';
+import {selectAuthUser} from '../../Auth/slices/userSlice';
+import {teamsApi, useFetchTeamsQuery} from '../../TeamSelection/teamSlice';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<HomeStackParamList, 'Leaderboard'>,
@@ -23,13 +21,16 @@ type Props = CompositeScreenProps<
 >;
 
 const LeaderboardPage: FC<Props> = ({navigation}) => {
-  const selectedTeam = useAppSelector(selectSelectedTeam);
-  const allTeams = useAppSelector(selectAllTeams);
+  const user = useAppSelector(selectAuthUser);
+  const selectedTeamData = useAppSelector(
+    teamsApi.endpoints.fetchTeamByTeamId.select(user?.teamId!),
+  );
+  const {data: allTeams = []} = useFetchTeamsQuery();
 
-  const allTeamsSorted = useMemo(() => sortTeams(allTeams), [allTeams]);
+  const allTeamsSorted = useMemo(() => sortTeams(allTeams.slice()), [allTeams]);
   const teamPosition = useMemo(
-    () => getTeamPosition(allTeamsSorted, selectedTeam!),
-    [allTeamsSorted, selectedTeam],
+    () => getTeamPosition(allTeamsSorted, selectedTeamData.data!),
+    [allTeamsSorted, selectedTeamData],
   );
   return (
     <SafeAreaView className="flex-1 container">
@@ -50,7 +51,7 @@ const LeaderboardPage: FC<Props> = ({navigation}) => {
                 name={team.name}
                 points={team.points}
                 index={index}
-                isCurrent={team.name === selectedTeam?.name}
+                isCurrent={team.id === selectedTeamData?.data?.id}
               />
             ))}
           </View>

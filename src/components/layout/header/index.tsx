@@ -3,13 +3,13 @@ import {Image, Pressable, Text, View} from 'react-native';
 
 import {useAppSelector} from '../../../app/hooks';
 import {selectCurrentActivities} from '../../../features/Activities/activitySlice';
-import {selectUser} from '../../../features/Auth/authSlice';
+import {selectAuthUser} from '../../../features/Auth/slices/userSlice';
 
 type Props = {
   navigate: () => void;
 };
 const Header: FC<Props> = ({navigate}) => {
-  const user = useAppSelector(selectUser);
+  const user = useAppSelector(selectAuthUser);
   const currentActivities = useAppSelector(selectCurrentActivities);
   return (
     user && (
@@ -18,12 +18,12 @@ const Header: FC<Props> = ({navigate}) => {
           className="flex flex-row w-1/3 justify-start items-center"
           onPress={() => navigate()}>
           <Image
-            source={{uri: user.photoURL!}}
+            source={require('../../../assets/images/profile.webp')}
             className="w-[50px] h-[50px] rounded-full"
           />
           <View className="flex flex-col justify-center items-center ml-1 text-black">
             <Text className="text-sm">Welcome</Text>
-            <Text className="font-medium text-base">{user.displayName}</Text>
+            <Text className="font-medium text-base">{user.name}</Text>
           </View>
         </Pressable>
         <View className="flex flex-row w-1/3 justify-end items-center">

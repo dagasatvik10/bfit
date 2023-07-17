@@ -1,56 +1,22 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
-import {Image} from 'react-native';
+import React, {FC} from 'react';
 
-import {ActivitiesPage} from '../features';
-import {HomeStack} from './HomeStack';
+import {useGetAuthUserQuery} from '../features/Auth/slices/userSlice';
+import {AuthStack} from './AuthStack';
+import {SelectTeamPage} from '../features';
+import {HomeTab} from './HomeTab';
 
-const HomeBarIcon = () => {
-  return (
-    <Image
-      source={require('../assets/images/home_icon.webp')}
-      className="w-5 h-5"
-    />
-  );
+const Navigation: FC = () => {
+  const {data: user} = useGetAuthUserQuery();
+
+  if (!user) {
+    return <AuthStack />;
+  }
+
+  if (!user.teamId) {
+    return <SelectTeamPage />;
+  }
+
+  return <HomeTab />;
 };
 
-const ActivitiesBarIcon = () => {
-  return (
-    <Image
-      source={require('../assets/images/activities_icon.webp')}
-      className="w-5 h-5"
-    />
-  );
-};
-
-export type RootTabParamList = {
-  HomeStack: undefined;
-  Activities: undefined;
-};
-
-const Tab = createBottomTabNavigator<RootTabParamList>();
-
-const DefaultNavigation = () => {
-  return (
-    <Tab.Navigator
-      screenOptions={{headerShown: false}}
-      initialRouteName="HomeStack">
-      <Tab.Screen
-        name="HomeStack"
-        component={HomeStack}
-        options={{
-          tabBarIcon: HomeBarIcon,
-        }}
-      />
-      <Tab.Screen
-        name="Activities"
-        component={ActivitiesPage}
-        options={{
-          tabBarIcon: ActivitiesBarIcon,
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
-
-export default DefaultNavigation;
+export default Navigation;

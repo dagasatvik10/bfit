@@ -14,7 +14,7 @@ export interface User {
   email: string;
   points: number;
   teamId?: string | null;
-  createdAt: string;
+  createdAt: number;
 }
 
 export interface Activity {

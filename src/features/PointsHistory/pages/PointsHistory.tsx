@@ -1,17 +1,20 @@
 import React, {FC} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {Image, Pressable, ScrollView, Text, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-import Header from '../../../components/layout/header';
-import {Activity, selectPastActivities} from '../../Activities/activitySlice';
-import {useAppDispatch, useAppSelector} from '../../../app/hooks';
-import {selectSelectedTeam} from '../../TeamSelection/teamSlice';
-import {signOut} from '../../Auth/authSlice';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useAppSelector} from '../../../app/hooks';
+import Header from '../../../components/layout/header';
 import {HomeStackParamList} from '../../../navigation/HomeStack';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {RootTabParamList} from '../../../navigation';
+import {RootTabParamList} from '../../../navigation/HomeTab';
+import {Activity, selectPastActivities} from '../../Activities/activitySlice';
+import {
+  selectAuthUser,
+  useSignOutUserMutation,
+} from '../../Auth/slices/userSlice';
+import {useFetchTeamByTeamIdQuery} from '../../TeamSelection/teamSlice';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<HomeStackParamList, 'PointsHistory'>,
@@ -19,10 +22,11 @@ type Props = CompositeScreenProps<
 >;
 
 const PointsHistoryPage: FC<Props> = ({navigation}) => {
-  const dispatch = useAppDispatch();
-
+  const user = useAppSelector(selectAuthUser);
   const pastActivities = useAppSelector(selectPastActivities);
-  const selectedTeam = useAppSelector(selectSelectedTeam);
+  const {data: selectedTeam} = useFetchTeamByTeamIdQuery(user?.teamId!);
+
+  const [signOutUser] = useSignOutUserMutation();
 
   return (
     <SafeAreaView className="flex-1 container">
@@ -87,7 +91,7 @@ const PointsHistoryPage: FC<Props> = ({navigation}) => {
           </View>
           <View className="border-[1px] border-[#e5e5e5] my-2" />
           <View className="flex flex-row justify-center my-2">
-            <Pressable onPress={() => dispatch(signOut())}>
+            <Pressable onPress={() => signOutUser()}>
               <Text className="text-[#616161] text-sm">Logout</Text>
             </Pressable>
           </View>

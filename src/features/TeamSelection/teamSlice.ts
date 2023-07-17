@@ -1,67 +1,75 @@
-import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import firestore from '@react-native-firebase/firestore';
+import {createSelector} from '@reduxjs/toolkit';
 
-export interface Team {
-  name: string;
-  points: number;
-}
+import {firestoreApi} from '../../app/firestoreApi';
+import {Team, Teams} from '../../types';
 
-export interface TeamState {
-  allTeams: Team[];
-  selectedTeam: Team | null;
-}
-
-const initialState: TeamState = {
-  allTeams: [
-    {
-      name: 'Team 1',
-      points: 0,
-    },
-    {
-      name: 'Team 8',
-      points: 0,
-    },
-    {
-      name: 'Team 7',
-      points: 0,
-    },
-    {
-      name: 'Team 6',
-      points: 0,
-    },
-    {
-      name: 'Team 5',
-      points: 0,
-    },
-    {
-      name: 'Team 4',
-      points: 0,
-    },
-    {
-      name: 'Team 3',
-      points: 0,
-    },
-    {
-      name: 'Team 2',
-      points: 0,
-    },
-  ],
-  selectedTeam: null,
-};
-
-export const teamSlice = createSlice({
-  name: 'team',
-  initialState,
-  reducers: {
-    selectTeam: (state: TeamState, action: PayloadAction<Team>) => {
-      state.selectedTeam = action.payload;
-    },
-  },
+export const teamsApi = firestoreApi.injectEndpoints({
+  endpoints: builder => ({
+    fetchTeams: builder.query<Teams, void>({
+      async queryFn() {
+        try {
+          const ref = firestore().collection('teams');
+          const querySnapshot = await ref.get();
+          let teams: Teams = [];
+          querySnapshot.forEach(doc => {
+            teams.push({id: doc.id, ...doc.data()} as Team);
+          });
+          return {data: teams};
+        } catch (error: any) {
+          console.error(error);
+          return {error: error.message};
+        }
+      },
+      providesTags: ['Team'],
+    }),
+    fetchTeamByTeamId: builder.query<Team, string>({
+      async queryFn(teamId) {
+        try {
+          const ref = firestore().collection<Team>('teams').doc(teamId);
+          const docSnapshot = await ref.get();
+          const team = docSnapshot.data();
+          console.log(team);
+          return {data: team};
+        } catch (error: any) {
+          console.error(error.message);
+          return {error: error.message};
+        }
+      },
+      providesTags: ['Team'],
+    }),
+    setUserTeam: builder.mutation<null, {userId: string; teamId: string}>({
+      async queryFn(args) {
+        try {
+          const {teamId, userId} = args;
+          const ref = firestore().collection('users').doc(userId);
+          await ref.update({teamId});
+          return {data: null};
+        } catch (error: any) {
+          console.error(error.message);
+          return {error: error.message};
+        }
+      },
+      invalidatesTags: ['User'],
+    }),
+  }),
 });
 
-export const {selectTeam} = teamSlice.actions;
+export const selectAllTeamsResult = teamsApi.endpoints.fetchTeams.select();
 
-export const selectAllTeams = (state: {team: TeamState}) => state.team.allTeams;
-export const selectSelectedTeam = (state: {team: TeamState}) =>
-  state.team.selectedTeam;
+export const selectAllTeams = createSelector(
+  selectAllTeamsResult,
+  teamsResult => teamsResult.data ?? [],
+);
 
-export default teamSlice.reducer;
+// export const selectTeamByTeamId = createSelector(
+//   selectAllTeams,
+//   (state, teamId) => teamId,
+//   (teams: Teams, teamId) => teams.find(team => team.id === teamId),
+// );
+
+export const {
+  useFetchTeamByTeamIdQuery,
+  useFetchTeamsQuery,
+  useSetUserTeamMutation,
+} = teamsApi;
