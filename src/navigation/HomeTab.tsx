@@ -1,9 +1,10 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {FC} from 'react';
 import {Image} from 'react-native';
+import {NavigatorScreenParams} from '@react-navigation/native';
 
-import {ActivitiesPage} from '../features';
-import {HomeStack} from './HomeStack';
+import {ActivitiesPage, LeaderboardPage} from '../features';
+import {HomeStack, HomeStackParamList} from './HomeStack';
 
 type BarIconProps = {
   focused: boolean;
@@ -14,12 +15,12 @@ const HomeBarIcon: FC<BarIconProps> = ({focused}) => {
     <>
       {focused ? (
         <Image
-          source={require('../assets/images/home_icon.webp')}
+          source={require('../assets/icons/home_active.webp')}
           className="w-5 h-5"
         />
       ) : (
         <Image
-          source={require('../assets/images/home_icon.webp')}
+          source={require('../assets/icons/home.webp')}
           className="w-5 h-5"
         />
       )}
@@ -32,12 +33,12 @@ const ActivitiesBarIcon: FC<BarIconProps> = ({focused}) => {
     <>
       {focused ? (
         <Image
-          source={require('../assets/images/activities_icon.webp')}
+          source={require('../assets/icons/activities_active.webp')}
           className="w-5 h-5"
         />
       ) : (
         <Image
-          source={require('../assets/images/activities_icon.webp')}
+          source={require('../assets/icons/activities.webp')}
           className="w-5 h-5"
         />
       )}
@@ -45,11 +46,28 @@ const ActivitiesBarIcon: FC<BarIconProps> = ({focused}) => {
   );
 };
 
-// const LeaderboardBarIcon: FC<BarIconProps> = () => {};
+const LeaderboardBarIcon: FC<BarIconProps> = ({focused}) => {
+  return (
+    <>
+      {focused ? (
+        <Image
+          source={require('../assets/icons/leaderboard_active.webp')}
+          className="w-5 h-5"
+        />
+      ) : (
+        <Image
+          source={require('../assets/icons/leaderboard.webp')}
+          className="w-5 h-5"
+        />
+      )}
+    </>
+  );
+};
 
 export type RootTabParamList = {
-  HomeStack: undefined;
+  HomeStack: NavigatorScreenParams<HomeStackParamList>;
   Activities: undefined;
+  Leaderboard: undefined;
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -64,6 +82,15 @@ export const HomeTab = () => {
         component={HomeStack}
         options={{
           tabBarIcon: HomeBarIcon,
+          tabBarActiveTintColor: '#018e89',
+        }}
+      />
+      <Tab.Screen
+        name="Leaderboard"
+        component={LeaderboardPage}
+        options={{
+          tabBarIcon: LeaderboardBarIcon,
+          tabBarActiveTintColor: '#018e89',
         }}
       />
       <Tab.Screen
@@ -71,6 +98,7 @@ export const HomeTab = () => {
         component={ActivitiesPage}
         options={{
           tabBarIcon: ActivitiesBarIcon,
+          tabBarActiveTintColor: '#018e89',
         }}
       />
     </Tab.Navigator>

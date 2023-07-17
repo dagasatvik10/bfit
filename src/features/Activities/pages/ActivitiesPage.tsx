@@ -9,7 +9,7 @@ import Header from '../../../components/layout/header';
 import {RootTabParamList} from '../../../navigation/HomeTab';
 import {selectCurrentActivities, selectPastActivities} from '../activitySlice';
 
-type Props = BottomTabScreenProps<RootTabParamList>;
+type Props = BottomTabScreenProps<RootTabParamList, 'Activities'>;
 
 const ActivitiesPage: FC<Props> = ({navigation}) => {
   const currentActivities = useAppSelector(selectCurrentActivities);
@@ -17,7 +17,13 @@ const ActivitiesPage: FC<Props> = ({navigation}) => {
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
-        <Header navigate={() => navigation.navigate('HomeStack')} />
+        <Header
+          navigate={() =>
+            navigation.navigate('HomeStack', {
+              screen: 'PointsHistory',
+            })
+          }
+        />
         <View className="flex flex-col py-2">
           {/* Activities */}
           <View className="flex flex-col justify-between items-start">

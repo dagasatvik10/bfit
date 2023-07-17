@@ -1,6 +1,4 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {FC, useMemo} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -8,17 +6,13 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAppSelector} from '../../../app/hooks';
 import {TeamPill} from '../../../components/Team';
 import Header from '../../../components/layout/header';
-import {HomeStackParamList} from '../../../navigation/HomeStack';
 import {RootTabParamList} from '../../../navigation/HomeTab';
 import {Team} from '../../../types';
 import {getTeamPosition, sortTeams} from '../../../utils';
 import {selectAuthUser} from '../../Auth/slices/userSlice';
 import {teamsApi, useFetchTeamsQuery} from '../../TeamSelection/teamSlice';
 
-type Props = CompositeScreenProps<
-  NativeStackScreenProps<HomeStackParamList, 'Leaderboard'>,
-  BottomTabScreenProps<RootTabParamList>
->;
+type Props = BottomTabScreenProps<RootTabParamList, 'Leaderboard'>;
 
 const LeaderboardPage: FC<Props> = ({navigation}) => {
   const user = useAppSelector(selectAuthUser);
@@ -35,7 +29,13 @@ const LeaderboardPage: FC<Props> = ({navigation}) => {
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
-        <Header navigate={() => navigation.navigate('PointsHistory')} />
+        <Header
+          navigate={() =>
+            navigation.navigate('HomeStack', {
+              screen: 'PointsHistory',
+            })
+          }
+        />
         <View className="flex flex-col py-2">
           {/* Leaderboard */}
           <View className="py-2 flex flex-col justify-between items-start">
