@@ -1,16 +1,16 @@
-import React, {useMemo, useRef} from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import React, {FC, useMemo, useRef} from 'react';
 import {Animated, Image, Pressable, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {useAppSelector} from '../../../app/hooks';
-import {selectAuthUser} from '../../Auth/slices/userSlice';
-import {useFetchTeamsQuery, useSetUserTeamMutation} from '../teamSlice';
+import {TeamStackParamList} from '../../../navigation/TeamStack';
+import {useFetchTeamsQuery} from '../teamSlice';
 import {sortTeamsBySortKey} from '../utils';
 
-export const SelectTeamPage = () => {
-  const user = useAppSelector(selectAuthUser);
+type Props = NativeStackScreenProps<TeamStackParamList, 'SelectTeam'>;
+
+export const SelectTeamPage: FC<Props> = ({navigation}) => {
   const {data: allTeams = [], isSuccess} = useFetchTeamsQuery();
-  const [setUserTeam] = useSetUserTeamMutation();
 
   const sortedTeams = useMemo(
     () => sortTeamsBySortKey(allTeams.slice()),
@@ -37,8 +37,8 @@ export const SelectTeamPage = () => {
       }).start(() => {
         setTimeout(() => {
           console.log('selected', selected);
-          setUserTeam({teamId: selected.id, userId: user?.id!});
-        }, 2000);
+          navigation.navigate('SelectionDone', {team: selected});
+        }, 1000);
       });
     };
 

@@ -6,19 +6,20 @@ import {Image, Pressable, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {useAppSelector} from '../../../app/hooks';
-import {HomeStackParamList} from '../../../navigation/HomeStack';
 import {RootTabParamList} from '../../../navigation/HomeTab';
 import {selectAuthUser} from '../../Auth/slices/userSlice';
-import {useFetchTeamByTeamIdQuery} from '../teamSlice';
+import {useSetUserTeamMutation} from '../teamSlice';
+import {TeamStackParamList} from '../../../navigation/TeamStack';
 
 type Props = CompositeScreenProps<
-  NativeStackScreenProps<HomeStackParamList, 'SelectionDone'>,
+  NativeStackScreenProps<TeamStackParamList, 'SelectionDone'>,
   BottomTabScreenProps<RootTabParamList>
 >;
 
-const SelectionDonePage: FC<Props> = ({navigation}) => {
+const SelectionDonePage: FC<Props> = ({route}) => {
+  const {team} = route.params;
   const user = useAppSelector(selectAuthUser);
-  const {data: selectedTeam} = useFetchTeamByTeamIdQuery(user?.teamId!);
+  const [setUserTeam] = useSetUserTeamMutation();
 
   return (
     <SafeAreaView className="flex-1">
@@ -33,9 +34,7 @@ const SelectionDonePage: FC<Props> = ({navigation}) => {
         </View>
         <View className="flex-1 pt-5 justify-start">
           <View className="rounded-full w-48 bg-[#FFF2E2] items-center px-3 py-2">
-            <Text className="text-3xl font-bold text-black">
-              {selectedTeam?.name}
-            </Text>
+            <Text className="text-3xl font-bold text-black">{team.name}</Text>
           </View>
         </View>
       </View>
@@ -46,7 +45,8 @@ const SelectionDonePage: FC<Props> = ({navigation}) => {
         </View>
         <View className="basis-1/4">
           {/* TODO: navigate to home screen */}
-          <Pressable onPress={() => navigation.navigate('Home')}>
+          <Pressable
+            onPress={() => setUserTeam({teamId: team.id, userId: user?.id!})}>
             <View className="rounded-full w-80 bg-[#f9c06c] items-center p-2">
               <Text className="text-2xl font-bold text-black">Let's Go</Text>
             </View>
