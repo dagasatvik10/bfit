@@ -75,7 +75,7 @@ const PointsHistoryPage: FC<Props> = ({navigation}) => {
               <View
                 key={activity.title}
                 className="flex flex-col justify-start my-2">
-                <View className="flex flex-row rounded-xl justify-between items-center border-2 border-[#e5e5e5] shadow-lg h-14 px-4">
+                <View className="flex flex-row rounded-xl justify-between items-center border-2 border-[#e5e5e5] h-14 px-4">
                   <Text className="font-medium text-sm text-black">
                     {activity.title} {activity.done ? 'Completed' : 'Missed'}
                   </Text>
