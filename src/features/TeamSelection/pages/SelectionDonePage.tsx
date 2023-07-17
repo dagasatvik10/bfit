@@ -7,9 +7,9 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {useAppSelector} from '../../../app/hooks';
 import {RootTabParamList} from '../../../navigation/HomeTab';
-import {selectAuthUser} from '../../Auth/slices/userSlice';
-import {useSetUserTeamMutation} from '../teamSlice';
 import {TeamStackParamList} from '../../../navigation/TeamStack';
+import {selectAuthUser} from '../../../slices/userSlice';
+import {useSetUserTeamMutation} from '../teamSlice';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<TeamStackParamList, 'SelectionDone'>,

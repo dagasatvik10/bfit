@@ -9,11 +9,11 @@ import {useAppSelector} from '../../../app/hooks';
 import Header from '../../../components/layout/header';
 import {HomeStackParamList} from '../../../navigation/HomeStack';
 import {RootTabParamList} from '../../../navigation/HomeTab';
-import {Activity, selectPastActivities} from '../../Activities/activitySlice';
 import {
   selectAuthUser,
   useSignOutUserMutation,
-} from '../../Auth/slices/userSlice';
+} from '../../../slices/userSlice';
+import {Activity, selectPastActivities} from '../../Activities/activitySlice';
 import {useFetchTeamByTeamIdQuery} from '../../TeamSelection/teamSlice';
 
 type Props = CompositeScreenProps<

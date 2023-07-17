@@ -1,8 +1,9 @@
 import React, {FC, useCallback, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {Button, TextInput} from 'react-native-paper';
-import {useCreateUserMutation} from '../slices/userSlice';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
+import {useCreateUserMutation} from '../../../slices/userSlice';
 
 const SignupPage: FC = () => {
   const [name, setName] = useState('');

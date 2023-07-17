@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 
-import {useGetAuthUserQuery} from '../features/Auth/slices/userSlice';
+import {useGetAuthUserQuery} from '../slices/userSlice';
 import {AuthStack} from './AuthStack';
-import {SelectTeamPage} from '../features';
 import {HomeTab} from './HomeTab';
+import {TeamStack} from './TeamStack';
 
 const Navigation: FC = () => {
   const {data: user} = useGetAuthUserQuery();
@@ -13,7 +13,7 @@ const Navigation: FC = () => {
   }
 
   if (!user.teamId) {
-    return <SelectTeamPage />;
+    return <TeamStack />;
   }
 
   return <HomeTab />;

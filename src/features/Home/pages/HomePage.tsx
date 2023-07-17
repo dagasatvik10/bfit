@@ -18,9 +18,9 @@ import {TeamPill} from '../../../components/Team';
 import Header from '../../../components/layout/header';
 import {HomeStackParamList} from '../../../navigation/HomeStack';
 import {RootTabParamList} from '../../../navigation/HomeTab';
+import {selectAuthUser} from '../../../slices/userSlice';
 import {getTeamPosition, sortTeams} from '../../../utils';
 import {selectCurrentActivities} from '../../Activities/activitySlice';
-import {selectAuthUser} from '../../Auth/slices/userSlice';
 import {teamsApi, useFetchTeamsQuery} from '../../TeamSelection/teamSlice';
 
 type SectionTitleProps = {

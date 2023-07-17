@@ -7,9 +7,9 @@ import {useAppSelector} from '../../../app/hooks';
 import {TeamPill} from '../../../components/Team';
 import Header from '../../../components/layout/header';
 import {RootTabParamList} from '../../../navigation/HomeTab';
+import {selectAuthUser} from '../../../slices/userSlice';
 import {Team} from '../../../types';
 import {getTeamPosition, sortTeams} from '../../../utils';
-import {selectAuthUser} from '../../Auth/slices/userSlice';
 import {teamsApi, useFetchTeamsQuery} from '../../TeamSelection/teamSlice';
 
 type Props = BottomTabScreenProps<RootTabParamList, 'Leaderboard'>;
