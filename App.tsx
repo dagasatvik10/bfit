@@ -10,10 +10,10 @@ import React, {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 
 import {useAppSelector} from './src/app/hooks';
-import {selectUser} from './src/features/Login/authSlice';
+import {selectUser} from './src/features/Auth/authSlice';
 import {onUserSignIn} from './src/lib/auth';
 import Navigation from './src/navigation';
-import {LoginPage, SelectTeamPage} from './src/features';
+import {SelectTeamPage} from './src/features';
 import {selectSelectedTeam} from './src/features/TeamSelection/teamSlice';
 import {AuthStack} from './src/navigation/AuthStack';
 
