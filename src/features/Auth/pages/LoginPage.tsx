@@ -1,42 +1,67 @@
-import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
-import React from 'react';
-import {Image, ImageBackground, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {useAppDispatch} from '../../../app/hooks';
-import {signIn} from '../authSlice';
+import {Button, TextInput} from 'react-native-paper';
 
 function LoginPage(): JSX.Element {
-  const dispatch = useAppDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [hidePassword, setHidePassword] = useState(true);
+
   return (
-    <SafeAreaView className="flex-1">
-      <ImageBackground
-        className="flex-1"
-        source={require('../../../assets/images/splash.webp')}>
-        <View className="basis-1/4" />
-        <View className="basis-1/2 ml-4">
-          <View className="flex-1 justify-center items-start ">
-            <Image source={require('..//assets/images/fortum.webp')} />
-          </View>
-          <View className="flex-2 justify-center items-start">
-            <Text className="text-white text-4xl">Welcome to</Text>
-            <Text className="text-[#f9c06c] text-8xl">B.FIT</Text>
-          </View>
-          <View className="basis-1/4 justify-start items-start">
-            <Image source={require('../assets/images/logo.webp')} />
-          </View>
+    <SafeAreaView className="container flex-1">
+      <View className="flex-1 flex flex-col px-8 py-4">
+        <Text className="text-[#55b295] text-lg font-bold">
+          Hey! please login to continue
+        </Text>
+        <View className="flex flex-col py-2">
+          <TextInput
+            autoFocus={true}
+            textColor="#212121"
+            outlineColor="#9e9e9e"
+            activeOutlineColor="#9e9e9e"
+            className="my-2"
+            label="Email"
+            mode="outlined"
+            inputMode="email"
+            autoCapitalize="none"
+            value={email}
+            onChangeText={text => setEmail(text)}
+          />
+          <TextInput
+            textColor="#212121"
+            outlineColor="#9e9e9e"
+            activeOutlineColor="#9e9e9e"
+            className="my-2"
+            label="Password"
+            mode="outlined"
+            value={password}
+            onFocus={() => setHidePassword(false)}
+            onBlur={() => setHidePassword(true)}
+            autoCapitalize="none"
+            secureTextEntry={hidePassword}
+            onChangeText={text => setPassword(text)}
+          />
+          <Button
+            className="my-4"
+            mode="contained"
+            buttonColor="#f9c06c"
+            textColor="#000000"
+            labelStyle={buttonTextStyles.buttonText}>
+            Login
+          </Button>
         </View>
-        <View className="flex-1">
-          <View className="flex-1 justify-center items-center">
-            <GoogleSigninButton
-              size={GoogleSigninButton.Size.Wide}
-              onPress={() => dispatch(signIn())}
-            />
-          </View>
-        </View>
-      </ImageBackground>
+      </View>
     </SafeAreaView>
   );
 }
+
+const buttonTextStyles = StyleSheet.create({
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
 
 export default LoginPage;

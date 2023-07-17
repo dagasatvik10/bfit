@@ -3,8 +3,6 @@ import {StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Button, TextInput} from 'react-native-paper';
 
-// import {useAppDispatch} from '../../../app/hooks';
-
 const SignupPage: FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
