@@ -127,7 +127,7 @@ const HomePage: FC<Props> = ({navigation}) => {
                   key={team.id}
                   navigate={(teamId: string) =>
                     navigation.navigate('LeaderboardStack', {
-                      screen: 'TeamUsers',
+                      screen: 'Team',
                       params: {teamId},
                     })
                   }

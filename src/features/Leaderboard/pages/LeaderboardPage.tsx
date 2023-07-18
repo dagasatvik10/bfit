@@ -61,7 +61,7 @@ const LeaderboardPage: FC<Props> = ({navigation}) => {
                 <TeamPill
                   key={team.name}
                   navigate={(teamId: string) =>
-                    navigation.navigate('TeamUsers', {teamId})
+                    navigation.navigate('Team', {teamId})
                   }
                   id={team.id}
                   name={team.name}

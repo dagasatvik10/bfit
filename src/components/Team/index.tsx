@@ -8,7 +8,8 @@ interface Props {
   points: number;
   index: number;
   isCurrent: boolean;
-  navigate: (teamId: string) => void;
+  navigate?: (teamId: string) => void;
+  icon?: string;
 }
 
 export const TeamPill: FC<Props> = ({
@@ -17,12 +18,13 @@ export const TeamPill: FC<Props> = ({
   points,
   index,
   isCurrent,
+  icon = 'chevron-right',
   navigate,
 }) => {
   return (
     <Pressable
-      onPress={() => navigate(id)}
-      className={`my-4 flex flex-row justify-between items-center rounded-xl w-full h-16 border-2 border-[#e5e5e5] ${
+      onPress={() => navigate && navigate(id)}
+      className={`z-10 my-4 flex flex-row justify-between items-center rounded-xl w-full h-16 border-2 border-[#e5e5e5] ${
         isCurrent ? 'bg-[#a2ece9]' : 'bg-white'
       }`}>
       <View className="flex-1 flex-row justify-start items-center mx-4">
@@ -39,7 +41,7 @@ export const TeamPill: FC<Props> = ({
         </View>
       </View>
       <View className="flex-1 flex-row justify-end items-center">
-        <IconButton icon="chevron-right" />
+        <IconButton icon={icon} />
       </View>
     </Pressable>
   );

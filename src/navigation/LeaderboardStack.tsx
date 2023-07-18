@@ -1,11 +1,11 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 
-import {LeaderboardPage, TeamUsersPage} from '../features';
+import {LeaderboardPage, TeamPage} from '../features';
 
 export type LeaderboardStackParamList = {
   Leaderboard: undefined;
-  TeamUsers: {teamId: string};
+  Team: {teamId: string};
 };
 
 const Stack = createNativeStackNavigator<LeaderboardStackParamList>();
@@ -16,7 +16,7 @@ export const LeaderboardStack = () => {
       initialRouteName="Leaderboard"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Leaderboard" component={LeaderboardPage} />
-      <Stack.Screen name="TeamUsers" component={TeamUsersPage} />
+      <Stack.Screen name="Team" component={TeamPage} />
     </Stack.Navigator>
   );
 };
