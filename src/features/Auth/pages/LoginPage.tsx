@@ -36,6 +36,13 @@ function LoginPage(): JSX.Element {
             className="my-2"
             label="Password"
             mode="outlined"
+            right={
+              <TextInput.Icon
+                color="#55b295"
+                onPress={() => setHidePassword(h => !h)}
+                icon={hidePassword ? 'eye-outline' : 'eye-off-outline'}
+              />
+            }
             value={password}
             onFocus={() => setHidePassword(false)}
             onBlur={() => setHidePassword(true)}
