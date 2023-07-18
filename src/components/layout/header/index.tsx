@@ -26,15 +26,18 @@ const Header: FC<Props> = ({navigate}) => {
             <Text className="font-medium text-base">{user.name}</Text>
           </View>
         </Pressable>
-        <View className="flex flex-row w-1/3 justify-end items-center">
+        <Pressable
+          onPress={() => navigate()}
+          className="flex flex-row w-1/3 justify-end items-center">
           <View className="flex flex-col justify-center items-center mr-1 text-black">
             <Text className="font-bold text-base">
               {currentActivities.filter(val => val.done).length * 50}
             </Text>
             <Text className="text-sm">Points</Text>
           </View>
+
           <Image source={require('../../../assets/images/coin.webp')} />
-        </View>
+        </Pressable>
       </View>
     )
   );
