@@ -1,4 +1,6 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {FC, useMemo} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -7,6 +9,7 @@ import {useAppSelector} from '../../../app/hooks';
 import {TeamPill} from '../../../components/Team';
 import Header from '../../../components/layout/header';
 import {RootTabParamList} from '../../../navigation/HomeTab';
+import {LeaderboardStackParamList} from '../../../navigation/LeaderboardStack';
 import {selectAuthUser} from '../../../slices/userSlice';
 import {Team} from '../../../types';
 import {getTeamPosition, sortTeamsByKey} from '../../../utils';
@@ -15,7 +18,10 @@ import {
   useFetchTeamsQuery,
 } from '../../TeamSelection/teamSlice';
 
-type Props = BottomTabScreenProps<RootTabParamList, 'Leaderboard'>;
+type Props = CompositeScreenProps<
+  NativeStackScreenProps<LeaderboardStackParamList, 'Leaderboard'>,
+  BottomTabScreenProps<RootTabParamList>
+>;
 
 const LeaderboardPage: FC<Props> = ({navigation}) => {
   const user = useAppSelector(selectAuthUser);
@@ -54,6 +60,10 @@ const LeaderboardPage: FC<Props> = ({navigation}) => {
               allTeamsSorted.map((team: Team, index: number) => (
                 <TeamPill
                   key={team.name}
+                  navigate={(teamId: string) =>
+                    navigation.navigate('TeamUsers', {teamId})
+                  }
+                  id={team.id}
                   name={team.name}
                   points={team.points}
                   index={index}

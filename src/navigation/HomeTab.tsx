@@ -3,8 +3,9 @@ import React, {FC} from 'react';
 import {Image} from 'react-native';
 import {NavigatorScreenParams} from '@react-navigation/native';
 
-import {ActivitiesPage, LeaderboardPage} from '../features';
+import {ActivitiesPage} from '../features';
 import {HomeStack, HomeStackParamList} from './HomeStack';
+import {LeaderboardStack, LeaderboardStackParamList} from './LeaderboardStack';
 
 type BarIconProps = {
   focused: boolean;
@@ -67,7 +68,7 @@ const LeaderboardBarIcon: FC<BarIconProps> = ({focused}) => {
 export type RootTabParamList = {
   HomeStack: NavigatorScreenParams<HomeStackParamList>;
   Activities: undefined;
-  Leaderboard: undefined;
+  LeaderboardStack: NavigatorScreenParams<LeaderboardStackParamList>;
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -86,8 +87,8 @@ export const HomeTab = () => {
         }}
       />
       <Tab.Screen
-        name="Leaderboard"
-        component={LeaderboardPage}
+        name="LeaderboardStack"
+        component={LeaderboardStack}
         options={{
           tabBarIcon: LeaderboardBarIcon,
           tabBarActiveTintColor: '#018e89',

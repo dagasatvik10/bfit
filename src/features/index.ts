@@ -4,6 +4,7 @@ export {default as LoginPage} from './Auth/pages/LoginPage';
 export {default as SignupPage} from './Auth/pages/SignupPage';
 export {default as HomePage} from './Home/pages/HomePage';
 export {default as LeaderboardPage} from './Leaderboard/pages/LeaderboardPage';
+export * from './Leaderboard/pages/TeamUsersPage';
 export {default as PointsHistoryPage} from './PointsHistory/pages/PointsHistory';
 export {default as SelectTeamPage} from './TeamSelection/pages/SelectTeamPage';
 export {default as SelectionDonePage} from './TeamSelection/pages/SelectionDonePage';

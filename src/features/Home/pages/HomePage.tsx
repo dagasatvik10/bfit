@@ -113,7 +113,9 @@ const HomePage: FC<Props> = ({navigation}) => {
         <View className="py-2 mb-4 flex flex-col">
           <SectionTitle
             title="Leader board"
-            navigate={() => navigation.navigate('Leaderboard')}
+            navigate={() =>
+              navigation.navigate('LeaderboardStack', {screen: 'Leaderboard'})
+            }
           />
           <View className="pt-2 pb-4 flex flex-col bg-[#f5f5f5] rounded-xl shadow-2xl w-full h-[400px]">
             <View className="h-full flex flex-col px-6 justify-evenly">
@@ -123,6 +125,13 @@ const HomePage: FC<Props> = ({navigation}) => {
               {allTeamsSorted.slice(0, 4).map((team, index) => (
                 <TeamPill
                   key={team.id}
+                  navigate={(teamId: string) =>
+                    navigation.navigate('LeaderboardStack', {
+                      screen: 'TeamUsers',
+                      params: {teamId},
+                    })
+                  }
+                  id={team.id}
                   name={team.name}
                   points={team.points}
                   index={index}

@@ -1,17 +1,27 @@
 import React, {FC} from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Pressable, Text, View} from 'react-native';
 import {IconButton} from 'react-native-paper';
 
 interface Props {
+  id: string;
   name: string;
   points: number;
   index: number;
   isCurrent: boolean;
+  navigate: (teamId: string) => void;
 }
 
-export const TeamPill: FC<Props> = ({name, points, index, isCurrent}) => {
+export const TeamPill: FC<Props> = ({
+  id,
+  name,
+  points,
+  index,
+  isCurrent,
+  navigate,
+}) => {
   return (
-    <View
+    <Pressable
+      onPress={() => navigate(id)}
       className={`my-4 flex flex-row justify-between items-center rounded-xl w-full h-16 border-2 border-[#e5e5e5] ${
         isCurrent ? 'bg-[#a2ece9]' : 'bg-white'
       }`}>
@@ -31,6 +41,6 @@ export const TeamPill: FC<Props> = ({name, points, index, isCurrent}) => {
       <View className="flex-1 flex-row justify-end items-center">
         <IconButton icon="chevron-right" />
       </View>
-    </View>
+    </Pressable>
   );
 };
