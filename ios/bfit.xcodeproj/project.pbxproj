@@ -15,6 +15,7 @@
 		3624410C15F090CDC235A43F /* Pods_bfit_bfitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97920FB4402A9E0959E4C66A /* Pods_bfit_bfitTests.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		862521522A5AF167003D9FC0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 862521512A5AF167003D9FC0 /* GoogleService-Info.plist */; };
+		86DA75272A6580A1000ED659 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86DA750C2A6578DD000ED659 /* MaterialCommunityIcons.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		5B7EB9410499542E8C5724F5 /* Pods-bfit-bfitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bfit-bfitTests.debug.xcconfig"; path = "Target Support Files/Pods-bfit-bfitTests/Pods-bfit-bfitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = bfit/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		862521512A5AF167003D9FC0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		86DA750C2A6578DD000ED659 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-bfit-bfitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bfit-bfitTests.release.xcconfig"; path = "Target Support Files/Pods-bfit-bfitTests/Pods-bfit-bfitTests.release.xcconfig"; sourceTree = "<group>"; };
 		97920FB4402A9E0959E4C66A /* Pods_bfit_bfitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bfit_bfitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1D3BC0F2A780B2A48F7B80E /* Pods_bfit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bfit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,7 @@
 		13B07FAE1A68108700A75B9A /* bfit */ = {
 			isa = PBXGroup;
 			children = (
+				86DA75062A6578DD000ED659 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -138,6 +141,15 @@
 				00E356EE1AD99517003FC87E /* bfitTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		86DA75062A6578DD000ED659 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				86DA750C2A6578DD000ED659 /* MaterialCommunityIcons.ttf */,
+			);
+			name = Fonts;
+			path = "../node_modules/react-native-vector-icons/Fonts";
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -246,6 +258,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86DA75272A6580A1000ED659 /* MaterialCommunityIcons.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				862521522A5AF167003D9FC0 /* GoogleService-Info.plist in Resources */,
