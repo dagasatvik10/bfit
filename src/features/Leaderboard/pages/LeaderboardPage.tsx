@@ -9,23 +9,28 @@ import Header from '../../../components/layout/header';
 import {RootTabParamList} from '../../../navigation/HomeTab';
 import {selectAuthUser} from '../../../slices/userSlice';
 import {Team} from '../../../types';
-import {getTeamPosition, sortTeams} from '../../../utils';
-import {teamsApi, useFetchTeamsQuery} from '../../TeamSelection/teamSlice';
+import {getTeamPosition, sortTeamsByKey} from '../../../utils';
+import {
+  useFetchTeamByTeamIdQuery,
+  useFetchTeamsQuery,
+} from '../../TeamSelection/teamSlice';
 
 type Props = BottomTabScreenProps<RootTabParamList, 'Leaderboard'>;
 
 const LeaderboardPage: FC<Props> = ({navigation}) => {
   const user = useAppSelector(selectAuthUser);
-  const selectedTeamData = useAppSelector(
-    teamsApi.endpoints.fetchTeamByTeamId.select(user?.teamId!),
-  );
+  const {data: selectedTeamData} = useFetchTeamByTeamIdQuery(user?.teamId!);
   const {data: allTeams = []} = useFetchTeamsQuery();
 
-  const allTeamsSorted = useMemo(() => sortTeams(allTeams.slice()), [allTeams]);
+  const allTeamsSorted = useMemo(
+    () => sortTeamsByKey(allTeams.slice(), 'points', 'desc'),
+    [allTeams],
+  );
   const teamPosition = useMemo(
-    () => getTeamPosition(allTeamsSorted, selectedTeamData.data!),
+    () => getTeamPosition(allTeamsSorted, selectedTeamData!),
     [allTeamsSorted, selectedTeamData],
   );
+
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
@@ -45,15 +50,16 @@ const LeaderboardPage: FC<Props> = ({navigation}) => {
             <Text className="text-[#424242] text-base font-bold">
               Your Team Position: {teamPosition}
             </Text>
-            {allTeamsSorted.map((team: Team, index: number) => (
-              <TeamPill
-                key={team.name}
-                name={team.name}
-                points={team.points}
-                index={index}
-                isCurrent={team.id === selectedTeamData?.data?.id}
-              />
-            ))}
+            {selectedTeamData &&
+              allTeamsSorted.map((team: Team, index: number) => (
+                <TeamPill
+                  key={team.name}
+                  name={team.name}
+                  points={team.points}
+                  index={index}
+                  isCurrent={team.id === selectedTeamData.id}
+                />
+              ))}
           </View>
         </View>
       </ScrollView>

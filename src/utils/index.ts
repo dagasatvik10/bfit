@@ -1,8 +1,15 @@
-import {Team} from '../features/TeamSelection/teamSlice';
+import {Team, Teams} from '../types';
 
-// sort in descending order
-export const sortTeams = (teams: Team[]) =>
-  teams.sort((a, b) => b.points - a.points);
+export const sortTeamsByKey = (
+  teams: Teams,
+  key: keyof Team,
+  order: 'asc' | 'desc' = 'asc',
+) =>
+  teams.sort((a, b) =>
+    order === 'desc'
+      ? Number(b[key]) - Number(a[key])
+      : Number(a[key]) - Number(b[key]),
+  );
 
 export const getTeamPosition = (teams: Team[], currentTeam: Team) =>
   teams.findIndex(team => team.name === currentTeam?.name) + 1;

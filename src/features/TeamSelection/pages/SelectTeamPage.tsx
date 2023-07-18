@@ -4,8 +4,8 @@ import {Animated, Image, Pressable, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {TeamStackParamList} from '../../../navigation/TeamStack';
+import {sortTeamsByKey} from '../../../utils';
 import {useFetchTeamsQuery} from '../teamSlice';
-import {sortTeamsBySortKey} from '../utils';
 
 type Props = NativeStackScreenProps<TeamStackParamList, 'SelectTeam'>;
 
@@ -13,7 +13,7 @@ export const SelectTeamPage: FC<Props> = ({navigation}) => {
   const {data: allTeams = [], isSuccess} = useFetchTeamsQuery();
 
   const sortedTeams = useMemo(
-    () => sortTeamsBySortKey(allTeams.slice()),
+    () => sortTeamsByKey(allTeams.slice(), 'sortKey'),
     [allTeams],
   );
   const teamsCount = sortedTeams.length;

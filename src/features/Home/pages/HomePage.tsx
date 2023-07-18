@@ -19,9 +19,12 @@ import Header from '../../../components/layout/header';
 import {HomeStackParamList} from '../../../navigation/HomeStack';
 import {RootTabParamList} from '../../../navigation/HomeTab';
 import {selectAuthUser} from '../../../slices/userSlice';
-import {getTeamPosition, sortTeams} from '../../../utils';
+import {getTeamPosition, sortTeamsByKey} from '../../../utils';
 import {selectCurrentActivities} from '../../Activities/activitySlice';
-import {teamsApi, useFetchTeamsQuery} from '../../TeamSelection/teamSlice';
+import {
+  useFetchTeamByTeamIdQuery,
+  useFetchTeamsQuery,
+} from '../../TeamSelection/teamSlice';
 
 type SectionTitleProps = {
   title: string;
@@ -48,12 +51,13 @@ type Props = CompositeScreenProps<
 const HomePage: FC<Props> = ({navigation}) => {
   const user = useAppSelector(selectAuthUser);
   const currentActivities = useAppSelector(selectCurrentActivities);
-  const selectedTeamData = useAppSelector(
-    teamsApi.endpoints.fetchTeamByTeamId.select(user?.teamId!),
-  );
+  const selectedTeamData = useFetchTeamByTeamIdQuery(user?.teamId!);
   const {data: allTeams = []} = useFetchTeamsQuery();
 
-  const allTeamsSorted = useMemo(() => sortTeams(allTeams.slice()), [allTeams]);
+  const allTeamsSorted = useMemo(
+    () => sortTeamsByKey(allTeams.slice(), 'points', 'desc'),
+    [allTeams],
+  );
 
   const teamPosition = useMemo(
     () => getTeamPosition(allTeamsSorted, selectedTeamData.data!),
