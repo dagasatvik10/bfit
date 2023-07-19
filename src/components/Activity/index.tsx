@@ -1,22 +1,28 @@
 import React, {FC} from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
-import {useAppDispatch} from '../../app/hooks';
-import {completeActivity} from '../../features/Activities/activitySlice';
+import {
+  useAddUserActivityMutation,
+  useFetchUserActivityQuery,
+} from '../../slices/userSlice';
 
 interface Props {
+  id: string;
   title: string;
   description: string;
   points: number;
-  done: boolean;
 }
 
 export const CurrentActivity: FC<Props> = ({
+  id,
   title,
   description,
   points,
-  done,
 }) => {
-  const dispatch = useAppDispatch();
+  const {data: userActivity} = useFetchUserActivityQuery(
+    {activityId: id},
+    {refetchOnMountOrArgChange: true},
+  );
+  const [addUserActivity] = useAddUserActivityMutation();
   return (
     <View className="my-4 py-4 px-4 bg-[#fef8f1] h-48 rounded-2xl shadow flex flex-col justify-between w-full">
       <View className="flex flex-row justify-between py-2">
@@ -30,14 +36,14 @@ export const CurrentActivity: FC<Props> = ({
         <Text className="text-base text-black font-normal">{description}</Text>
       </View>
       <View className="w-full py-2">
-        {done ? (
+        {userActivity?.completed ? (
           <View className="rounded-full bg-[#018e89] items-center p-2 w-full">
             <Text className="text-base font-bold text-white">Completed</Text>
           </View>
         ) : (
           <Pressable
             className="w-full flex flex-row items-center justify-center"
-            onPress={() => dispatch(completeActivity(title))}>
+            onPress={() => addUserActivity({activityId: id, points})}>
             <View className="rounded-full bg-[#018e89] items-center p-2 w-full">
               <Text className="text-base font-bold text-white">Yes</Text>
             </View>
@@ -48,7 +54,8 @@ export const CurrentActivity: FC<Props> = ({
   );
 };
 
-export const PastActivity: FC<Props> = ({title, description, points, done}) => {
+export const PastActivity: FC<Props> = ({title, description, points}) => {
+  const done = false;
   return (
     <View className="my-4 py-4 bg-[#fef8f1] h-48 rounded-2xl shadow flex flex-col justify-between w-full">
       <View className="flex flex-row justify-start px-4 py-2">

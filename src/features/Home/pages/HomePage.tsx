@@ -92,10 +92,10 @@ const HomePage: FC<Props> = ({navigation}) => {
           />
           {currentActivities[0] && (
             <CurrentActivity
+              id={currentActivities[0].id}
               title={currentActivities[0].title}
               description={currentActivities[0].description}
               points={currentActivities[0].points}
-              done={false}
             />
           )}
         </View>

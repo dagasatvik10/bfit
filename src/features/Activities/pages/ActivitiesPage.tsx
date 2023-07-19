@@ -49,11 +49,7 @@ const ActivitiesPage: FC<Props> = ({navigation}) => {
               Active challenge of this week
             </Text>
             {currentActivities?.map(activity => (
-              <CurrentActivity
-                key={activity.title}
-                {...activity}
-                done={false}
-              />
+              <CurrentActivity key={activity.title} {...activity} />
             ))}
           </View>
           {/* Past Activities */}
@@ -63,7 +59,7 @@ const ActivitiesPage: FC<Props> = ({navigation}) => {
                 Past challenge
               </Text>
               {pastActivities.map(activity => (
-                <PastActivity key={activity.title} {...activity} done={false} />
+                <PastActivity key={activity.title} {...activity} />
               ))}
             </View>
           )}
