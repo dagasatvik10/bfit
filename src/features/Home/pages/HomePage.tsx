@@ -20,7 +20,8 @@ import {HomeStackParamList} from '../../../navigation/HomeStack';
 import {RootTabParamList} from '../../../navigation/HomeTab';
 import {selectAuthUser} from '../../../slices/userSlice';
 import {getTeamPosition, sortTeamsByKey} from '../../../utils';
-import {selectCurrentActivities} from '../../Activities/activitySlice';
+import {useFetchCurrentActivitiesQuery} from '../../Activities/activitySlice';
+import {getPreviousDate} from '../../../utils/date';
 import {
   useFetchTeamByTeamIdQuery,
   useFetchTeamsQuery,
@@ -49,10 +50,19 @@ type Props = CompositeScreenProps<
 >;
 
 const HomePage: FC<Props> = ({navigation}) => {
+  const currentDate = useMemo(() => new Date(), []);
+  const previousDate = useMemo(
+    () => getPreviousDate(currentDate, 7),
+    [currentDate],
+  );
+
   const user = useAppSelector(selectAuthUser);
-  const currentActivities = useAppSelector(selectCurrentActivities);
   const selectedTeamData = useFetchTeamByTeamIdQuery(user?.teamId!);
   const {data: allTeams = []} = useFetchTeamsQuery();
+  const {data: currentActivities = []} = useFetchCurrentActivitiesQuery({
+    currentDate: currentDate.getTime(),
+    previousDate: previousDate.getTime(),
+  });
 
   const allTeamsSorted = useMemo(
     () => sortTeamsByKey(allTeams.slice(), 'points', 'desc'),
@@ -80,12 +90,14 @@ const HomePage: FC<Props> = ({navigation}) => {
             title="Active Challenge"
             navigate={() => navigation.navigate('Activities')}
           />
-          <CurrentActivity
-            title={currentActivities[0].title}
-            description={currentActivities[0].description}
-            points={currentActivities[0].points}
-            done={currentActivities[0].done}
-          />
+          {currentActivities[0] && (
+            <CurrentActivity
+              title={currentActivities[0].title}
+              description={currentActivities[0].description}
+              points={currentActivities[0].points}
+              done={false}
+            />
+          )}
         </View>
         {/* Health Tips */}
         <View className="py-2 h-60 w-full">

@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
 
 import {useAppSelector} from '../../../app/hooks';
-import {selectCurrentActivities} from '../../../features/Activities/activitySlice';
 import {selectAuthUser} from '../../../slices/userSlice';
 
 type Props = {
@@ -10,7 +9,6 @@ type Props = {
 };
 const Header: FC<Props> = ({navigate}) => {
   const user = useAppSelector(selectAuthUser);
-  const currentActivities = useAppSelector(selectCurrentActivities);
   return (
     user && (
       <View className="flex flex-row justify-between pb-2">
@@ -30,9 +28,7 @@ const Header: FC<Props> = ({navigate}) => {
           onPress={() => navigate()}
           className="flex flex-row w-1/3 justify-end items-center">
           <View className="flex flex-col justify-center items-center mr-1 text-black">
-            <Text className="font-bold text-base">
-              {currentActivities.filter(val => val.done).length * 50}
-            </Text>
+            <Text className="font-bold text-base">{user.points}</Text>
             <Text className="text-sm">Points</Text>
           </View>
 

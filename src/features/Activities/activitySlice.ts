@@ -1,69 +1,99 @@
-import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import firestore from '@react-native-firebase/firestore';
 
-export interface Activity {
-  title: string;
-  description: string;
-  points: number;
-  done: boolean;
-}
+import {firestoreApi} from '../../app/firestoreApi';
+import {Activities, Activity} from '../../types';
+import {getTimeInMilliseconds} from '../../utils/date';
 
-export interface ActivityState {
-  currentActivities: Activity[];
-  pastActivities: Activity[];
-}
+export const activityApi = firestoreApi.injectEndpoints({
+  overrideExisting: true,
+  endpoints: builder => ({
+    fetchCurrentActivities: builder.query<
+      Activities,
+      {currentDate: number; previousDate: number}
+    >({
+      async queryFn({currentDate, previousDate}) {
+        try {
+          const currentTimestamp = firestore.Timestamp.fromMillis(currentDate);
+          const previousTimestamp =
+            firestore.Timestamp.fromMillis(previousDate);
 
-const initialState: ActivityState = {
-  currentActivities: [
-    {
-      title: 'Challenge 3',
-      description: '8-10 Glasses of water today?',
-      points: 50,
-      done: false,
-    },
-    {
-      title: 'Challenge 4',
-      description: 'Did you Sleep 6-8 hours today?',
-      points: 50,
-      done: false,
-    },
-  ],
-  pastActivities: [
-    {
-      title: 'Challenge 1',
-      description: '8-10 Glasses of water today?',
-      points: 50,
-      done: false,
-    },
-    {
-      title: 'Challenge 2',
-      description: 'Did you Sleep 6-8 hours today?',
-      points: 50,
-      done: true,
-    },
-  ],
-};
+          const ref = firestore().collection('activities');
+          const querySnapshot = await ref
+            .orderBy('start', 'asc')
+            .orderBy('title', 'asc')
+            .startAt(previousTimestamp)
+            .endAt(currentTimestamp)
+            .get();
+          const activities: Activities = [];
+          querySnapshot.forEach(doc => {
+            const data = doc.data();
+            activities.push({
+              id: doc.id,
+              ...data,
+              start: getTimeInMilliseconds(
+                data.start.seconds,
+                data.start.nanoseconds,
+              ),
+              end: getTimeInMilliseconds(
+                data.end.seconds,
+                data.end.nanoseconds,
+              ),
+            } as Activity);
+          });
+          return {data: activities};
+        } catch (error: any) {
+          console.error(error);
+          return {error: error.message};
+        }
+      },
+      providesTags: result => {
+        return result
+          ? result.map(({id}) => ({type: 'Activity', id}))
+          : ['Activity'];
+      },
+    }),
+    fetchPastActivities: builder.query<Activities, {currentDate: number}>({
+      async queryFn({currentDate}) {
+        try {
+          const currentTimestamp = firestore.Timestamp.fromMillis(currentDate);
 
-export const activitySlice = createSlice({
-  name: 'activity',
-  initialState,
-  reducers: {
-    completeActivity: (state: ActivityState, action: PayloadAction<string>) => {
-      const activityIndex = state.currentActivities.findIndex(
-        val => val.title === action.payload,
-      );
-      if (activityIndex !== -1) {
-        state.currentActivities[activityIndex].done = true;
-      }
-    },
-  },
+          const ref = firestore().collection('activities');
+          const querySnapshot = await ref
+            .orderBy('end', 'asc')
+            .orderBy('title', 'asc')
+            // .startAt(previousTimestamp)
+            .endAt(currentTimestamp)
+            .get();
+          const activities: Activities = [];
+          querySnapshot.forEach(doc => {
+            const data = doc.data();
+            activities.push({
+              id: doc.id,
+              ...data,
+              start: getTimeInMilliseconds(
+                data.start.seconds,
+                data.start.nanoseconds,
+              ),
+              end: getTimeInMilliseconds(
+                data.end.seconds,
+                data.end.nanoseconds,
+              ),
+            } as Activity);
+          });
+          return {data: activities};
+        } catch (error: any) {
+          console.error(error);
+          return {error: error.message};
+        }
+      },
+      providesTags: result => {
+        return result
+          ? result.map(({id}) => ({type: 'Activity', id}))
+          : ['Activity'];
+      },
+    }),
+  }),
 });
 
-export const {completeActivity} = activitySlice.actions;
-
-export const selectCurrentActivities = (state: {activity: ActivityState}) =>
-  state.activity.currentActivities;
-
-export const selectPastActivities = (state: {activity: ActivityState}) =>
-  state.activity.pastActivities;
-
-export default activitySlice.reducer;
+export const {useFetchCurrentActivitiesQuery, useFetchPastActivitiesQuery} =
+  activityApi;
