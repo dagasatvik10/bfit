@@ -33,7 +33,7 @@ const Header: FC<Props> = ({navigate}) => {
           className="flex flex-row w-1/3 justify-end items-center">
           <View className="flex flex-col justify-center items-center mr-1 text-black">
             <Text className="font-bold text-base">
-              {(userActivities?.length ?? 0) * 50}
+              {(userActivities?.filter(ua => ua.completed).length ?? 0) * 50}
             </Text>
             <Text className="text-sm">Points</Text>
           </View>
