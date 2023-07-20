@@ -1,10 +1,11 @@
-import React, {FC, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import React, {FC, useCallback, useState} from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {AuthStackParamList} from '../../../navigation/AuthStack';
+import {useSignInUserMutation} from '../../../slices/userSlice';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
@@ -12,6 +13,14 @@ const LoginPage: FC<Props> = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hidePassword, setHidePassword] = useState(true);
+
+  const [signInUser] = useSignInUserMutation();
+
+  const handleSignin = useCallback(async () => {
+    if (email && password) {
+      await signInUser({email, password}).unwrap();
+    }
+  }, [signInUser, email, password]);
 
   return (
     <SafeAreaView className="container flex-1">
@@ -48,13 +57,12 @@ const LoginPage: FC<Props> = ({navigation}) => {
               />
             }
             value={password}
-            onFocus={() => setHidePassword(false)}
-            onBlur={() => setHidePassword(true)}
             autoCapitalize="none"
             secureTextEntry={hidePassword}
             onChangeText={text => setPassword(text)}
           />
           <Button
+            onPress={handleSignin}
             className="my-4"
             mode="contained"
             buttonColor="#f9c06c"
