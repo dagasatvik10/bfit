@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useMemo} from 'react';
 import {Image, Pressable, ScrollView, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
@@ -13,8 +13,15 @@ import {
   selectAuthUser,
   useSignOutUserMutation,
 } from '../../../slices/userSlice';
-import {Activity, selectPastActivities} from '../../Activities/activitySlice';
+
 import {useFetchTeamByTeamIdQuery} from '../../TeamSelection/teamSlice';
+import {
+  useFetchCurrentActivitiesQuery,
+  useFetchPastActivitiesQuery,
+} from '../../Activities/activitySlice';
+import {Activity} from '../../../types';
+import {Points} from '../molecules/Points';
+import {getPreviousDate} from '../../../utils/date';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<HomeStackParamList, 'PointsHistory'>,
@@ -22,8 +29,19 @@ type Props = CompositeScreenProps<
 >;
 
 const PointsHistoryPage: FC<Props> = ({navigation}) => {
+  const currentDate = useMemo(() => new Date(), []);
+  const previousDate = useMemo(
+    () => getPreviousDate(currentDate, 7),
+    [currentDate],
+  );
   const user = useAppSelector(selectAuthUser);
-  const pastActivities = useAppSelector(selectPastActivities);
+  const {data: currentActivities = []} = useFetchCurrentActivitiesQuery({
+    currentDate: currentDate.getTime(),
+    previousDate: previousDate.getTime(),
+  });
+  const {data: pastActivities = []} = useFetchPastActivitiesQuery({
+    currentDate: currentDate.getTime(),
+  });
   const {data: selectedTeam} = useFetchTeamByTeamIdQuery(user?.teamId!);
 
   const [signOutUser] = useSignOutUserMutation();
@@ -71,23 +89,11 @@ const PointsHistoryPage: FC<Props> = ({navigation}) => {
                 Earned Points
               </Text>
             </View>
-            {pastActivities.map((activity: Activity) => (
-              <View
-                key={activity.title}
-                className="flex flex-col justify-start my-2">
-                <View className="flex flex-row rounded-xl justify-between items-center border-2 border-[#e5e5e5] h-14 px-4">
-                  <Text className="font-medium text-sm text-black">
-                    {activity.title} {activity.done ? 'Completed' : 'Missed'}
-                  </Text>
-                  <Text
-                    className={`font-medium text-xs ${
-                      activity.done ? 'text-[#018e89]' : 'text-[#ff4c02]'
-                    } `}>
-                    50 Points
-                  </Text>
-                </View>
-              </View>
-            ))}
+            {[...currentActivities, ...pastActivities].map(
+              (activity: Activity) => (
+                <Points activity={activity} key={activity.id} />
+              ),
+            )}
           </View>
           <View className="border-[1px] border-[#e5e5e5] my-2" />
           <View className="flex flex-row justify-center my-2">
