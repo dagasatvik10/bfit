@@ -78,7 +78,7 @@ export const usersApi = firestoreApi.injectEndpoints({
           return {error: error.message};
         }
       },
-      invalidatesTags: ['User', 'UserActivity'],
+      invalidatesTags: ['User', 'UserActivity', 'Team'],
     }),
     addUserActivity: builder.mutation<
       null,
