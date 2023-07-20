@@ -1,11 +1,15 @@
 import React, {FC, useCallback, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
+import {AuthStackParamList} from '../../../navigation/AuthStack';
 import {useCreateUserMutation} from '../../../slices/userSlice';
 
-const SignupPage: FC = () => {
+type Props = NativeStackScreenProps<AuthStackParamList, 'Signup'>;
+
+const SignupPage: FC<Props> = ({navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -78,6 +82,11 @@ const SignupPage: FC = () => {
             labelStyle={buttonTextStyles.buttonText}>
             Almost Done
           </Button>
+        </View>
+        <View className="flex flex-row justify-center items-center">
+          <Pressable onPress={() => navigation.navigate('Login')}>
+            <Text>Already Registered? Login</Text>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>

@@ -1,10 +1,14 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {FC, useState} from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Button, TextInput} from 'react-native-paper';
 
-function LoginPage(): JSX.Element {
+import {AuthStackParamList} from '../../../navigation/AuthStack';
+
+type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
+
+const LoginPage: FC<Props> = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hidePassword, setHidePassword] = useState(true);
@@ -59,10 +63,15 @@ function LoginPage(): JSX.Element {
             Login
           </Button>
         </View>
+        <View className="flex flex-row justify-center items-center">
+          <Pressable onPress={() => navigation.navigate('Signup')}>
+            <Text>Not a registered user? Signup</Text>
+          </Pressable>
+        </View>
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const buttonTextStyles = StyleSheet.create({
   buttonText: {
