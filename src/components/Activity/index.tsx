@@ -1,9 +1,10 @@
 import React, {FC} from 'react';
-import {Image, Pressable, Text, View} from 'react-native';
+import {Image, Linking, Pressable, Text, View} from 'react-native';
 import {
   useAddUserActivityMutation,
   useFetchUserActivityQuery,
 } from '../../slices/userSlice';
+import {IconButton} from 'react-native-paper';
 
 interface Props {
   id: string;
@@ -35,19 +36,40 @@ export const CurrentActivity: FC<Props> = ({
       <View className="flex flex-row items-center justify-center">
         <Text className="text-base text-black font-normal">{description}</Text>
       </View>
+      <Pressable
+        onPress={() =>
+          Linking.openURL(
+            'https://www.youtube.com/watch?v=nP2AMCY_CMI&pp=ygUQbWVkaXRhdGlvbiBtdXNpYw%3D%3D',
+          )
+        }
+        className="flex flex-row items-center justify-center">
+        <Text className="text-base text-blue-500 font-normal">
+          youtube link
+        </Text>
+      </Pressable>
       <View className="w-full py-2">
         {userActivity?.completed ? (
-          <View className="rounded-full bg-[#018e89] items-center p-2 w-full">
+          <View className="rounded-full bg-[#018e89] items-center my-4 w-full">
             <Text className="text-base font-bold text-white">Completed</Text>
           </View>
         ) : (
-          <Pressable
-            className="w-full flex flex-row items-center justify-center"
-            onPress={() => addUserActivity({activityId: id, points})}>
-            <View className="rounded-full bg-[#018e89] items-center p-2 w-full">
-              <Text className="text-base font-bold text-white">Yes</Text>
+          <View className="flex flex-row justify-between items-center">
+            <View className="flex flex-row justify-start items-center">
+              <IconButton
+                icon="camera"
+                iconColor="#018e89"
+                size={20}
+                className="w-1/4"
+              />
             </View>
-          </Pressable>
+            <Pressable
+              className="flex flex-row items-center justify-center w-3/4"
+              onPress={() => addUserActivity({activityId: id, points})}>
+              <View className="rounded-full bg-[#018e89] items-center p-2 mr-4 w-full">
+                <Text className="text-base font-bold text-white">Yes</Text>
+              </View>
+            </Pressable>
+          </View>
         )}
       </View>
     </View>
