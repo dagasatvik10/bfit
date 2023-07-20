@@ -31,7 +31,6 @@ export const teamsApi = firestoreApi.injectEndpoints({
           const ref = firestore().collection<Team>('teams').doc(teamId);
           const docSnapshot = await ref.get();
           const teamData = docSnapshot.data();
-          console.log({data: {id: docSnapshot.id, ...teamData} as Team});
           return {data: {id: docSnapshot.id, ...teamData} as Team};
         } catch (error: any) {
           console.error(error.message);

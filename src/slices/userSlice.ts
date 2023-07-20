@@ -4,6 +4,7 @@ import {createSelector} from '@reduxjs/toolkit';
 
 import {firestoreApi} from '../app/firestoreApi';
 import {User, UserActivities, UserActivity} from '../types';
+import {onUserActivityAdd} from '../lib/activity';
 
 export const usersApi = firestoreApi.injectEndpoints({
   overrideExisting: true,
@@ -77,44 +78,22 @@ export const usersApi = firestoreApi.injectEndpoints({
           return {error: error.message};
         }
       },
-      invalidatesTags: ['User'],
+      invalidatesTags: ['User', 'UserActivity'],
     }),
     addUserActivity: builder.mutation<
-      UserActivity | null,
-      {activityId: string; points: number}
+      null,
+      {activityId: string; points: number; teamId: string; userId: string}
     >({
-      async queryFn({activityId, points}) {
+      async queryFn({activityId, points, teamId, userId}) {
         try {
-          const user = auth().currentUser;
-          if (user && user.email) {
-            const ref = firestore()
-              .collection('users')
-              .doc(user.email)
-              .collection('activities')
-              .doc(activityId);
-            const userActivity: UserActivity = {
-              userId: user?.email,
-              activityId,
-              points,
-              completed: true,
-              completedAt: Date.now(),
-            };
-            await ref.set({
-              completedAt: firestore.Timestamp.fromMillis(
-                userActivity.completedAt,
-              ),
-              completed: userActivity.completed,
-              points: userActivity.points,
-            });
-            return {data: userActivity as UserActivity};
-          }
+          await onUserActivityAdd(userId, teamId, activityId, points);
           return {data: null};
         } catch (error: any) {
           console.error(error);
           return {error: error.message};
         }
       },
-      invalidatesTags: ['UserActivity'],
+      invalidatesTags: ['UserActivity', 'Team', 'User'],
     }),
     fetchUserActivity: builder.query<UserActivity | null, {activityId: string}>(
       {

@@ -1,10 +1,10 @@
 import React, {FC, useMemo} from 'react';
 import {Image, Pressable, ScrollView, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
 import {useAppSelector} from '../../../app/hooks';
 import Header from '../../../components/layout/header';
 import {HomeStackParamList} from '../../../navigation/HomeStack';
@@ -14,14 +14,14 @@ import {
   useSignOutUserMutation,
 } from '../../../slices/userSlice';
 
-import {useFetchTeamByTeamIdQuery} from '../../TeamSelection/teamSlice';
+import {Activity} from '../../../types';
+import {getPreviousDate} from '../../../utils/date';
 import {
   useFetchCurrentActivitiesQuery,
   useFetchPastActivitiesQuery,
 } from '../../Activities/activitySlice';
-import {Activity} from '../../../types';
+import {useFetchTeamByTeamIdQuery} from '../../TeamSelection/teamSlice';
 import {Points} from '../molecules/Points';
-import {getPreviousDate} from '../../../utils/date';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<HomeStackParamList, 'PointsHistory'>,
@@ -42,7 +42,9 @@ const PointsHistoryPage: FC<Props> = ({navigation}) => {
   const {data: pastActivities = []} = useFetchPastActivitiesQuery({
     currentDate: currentDate.getTime(),
   });
-  const {data: selectedTeam} = useFetchTeamByTeamIdQuery(user?.teamId!);
+  const {data: selectedTeam} = useFetchTeamByTeamIdQuery(user?.teamId!, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const [signOutUser] = useSignOutUserMutation();
 
@@ -78,7 +80,9 @@ const PointsHistoryPage: FC<Props> = ({navigation}) => {
                     className="px-1"
                     source={require('../../../assets/images/coin.webp')}
                   />
-                  <Text className="font-bold text-base px-1">200 Points</Text>
+                  <Text className="font-bold text-base px-1">
+                    {user?.points} Points
+                  </Text>
                 </View>
               </View>
             </View>

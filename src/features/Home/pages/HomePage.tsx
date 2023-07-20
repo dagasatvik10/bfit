@@ -57,7 +57,7 @@ const HomePage: FC<Props> = ({navigation}) => {
   );
 
   const user = useAppSelector(selectAuthUser);
-  const selectedTeamData = useFetchTeamByTeamIdQuery(user?.teamId!);
+  const {data: selectedTeam} = useFetchTeamByTeamIdQuery(user?.teamId!);
   const {data: allTeams = []} = useFetchTeamsQuery();
   const {data: currentActivities = []} = useFetchCurrentActivitiesQuery({
     currentDate: currentDate.getTime(),
@@ -70,8 +70,8 @@ const HomePage: FC<Props> = ({navigation}) => {
   );
 
   const teamPosition = useMemo(
-    () => getTeamPosition(allTeamsSorted, selectedTeamData.data!),
-    [allTeamsSorted, selectedTeamData],
+    () => getTeamPosition(allTeamsSorted, selectedTeam!),
+    [allTeamsSorted, selectedTeam],
   );
   return (
     <SafeAreaView className="flex-1 container">
@@ -147,7 +147,7 @@ const HomePage: FC<Props> = ({navigation}) => {
                   name={team.name}
                   points={team.points}
                   index={index}
-                  isCurrent={team.id === selectedTeamData?.data?.id}
+                  isCurrent={team.id === selectedTeam?.id}
                 />
               ))}
             </View>

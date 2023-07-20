@@ -1,10 +1,13 @@
 import React, {FC} from 'react';
 import {Image, Linking, Pressable, Text, View} from 'react-native';
+import {IconButton} from 'react-native-paper';
+
+import {useAppSelector} from '../../app/hooks';
 import {
+  selectAuthUser,
   useAddUserActivityMutation,
   useFetchUserActivityQuery,
 } from '../../slices/userSlice';
-import {IconButton} from 'react-native-paper';
 
 interface Props {
   id: string;
@@ -19,6 +22,7 @@ export const CurrentActivity: FC<Props> = ({
   description,
   points,
 }) => {
+  const user = useAppSelector(selectAuthUser);
   const {data: userActivity} = useFetchUserActivityQuery(
     {activityId: id},
     {refetchOnMountOrArgChange: true},
@@ -49,7 +53,7 @@ export const CurrentActivity: FC<Props> = ({
       </Pressable>
       <View className="w-full py-2">
         {userActivity?.completed ? (
-          <View className="rounded-full bg-[#018e89] items-center my-4 w-full">
+          <View className="rounded-full bg-[#018e89] items-center py-2 my-4 w-full">
             <Text className="text-base font-bold text-white">Completed</Text>
           </View>
         ) : (
@@ -64,7 +68,14 @@ export const CurrentActivity: FC<Props> = ({
             </View>
             <Pressable
               className="flex flex-row items-center justify-center w-3/4"
-              onPress={() => addUserActivity({activityId: id, points})}>
+              onPress={() =>
+                addUserActivity({
+                  activityId: id,
+                  points,
+                  userId: user?.id!,
+                  teamId: user?.teamId!,
+                })
+              }>
               <View className="rounded-full bg-[#018e89] items-center p-2 mr-4 w-full">
                 <Text className="text-base font-bold text-white">Yes</Text>
               </View>
