@@ -55,37 +55,41 @@ export const TeamPage: FC<Props> = ({route, navigation}) => {
               index={1}
               isCurrent={user?.teamId === teamId}
             />
-            <Card className="-my-8">
-              <Card.Content>
-                <View className="flex flex-col justify-start mx-4 mt-4">
-                  <View className="flex flex-row justify-between mb-4">
-                    <Text className="font-bold text-xs text-[#f7b500]">
-                      Team Member
-                    </Text>
-                    <Text className="font-normal text-xs text-[#f7b500]">
-                      Earn Points
-                    </Text>
-                  </View>
-                  <View className="border-[1px] border-dashed border-[#cccccc]" />
-                  {users.map(u => (
-                    <View
-                      key={u.id}
-                      className="flex flex-row justify-between my-2">
-                      <Text
-                        className={`text-[11px] ${getUserColor(u)} font-bold`}>
-                        {u.name}
+            {users.length > 0 && (
+              <Card className="-my-8">
+                <Card.Content>
+                  <View className="flex flex-col justify-start mx-4 mt-4">
+                    <View className="flex flex-row justify-between mb-4">
+                      <Text className="font-bold text-xs text-[#f7b500]">
+                        Team Member
                       </Text>
-                      <Text
-                        className={`text-[11px] ${getUserColor(
-                          u,
-                        )} font-normal`}>
-                        {u.points} Points
+                      <Text className="font-normal text-xs text-[#f7b500]">
+                        Points Earned
                       </Text>
                     </View>
-                  ))}
-                </View>
-              </Card.Content>
-            </Card>
+                    <View className="border-[1px] border-dashed border-[#cccccc]" />
+                    {users.map(u => (
+                      <View
+                        key={u.id}
+                        className="flex flex-row justify-between my-2">
+                        <Text
+                          className={`text-[11px] ${getUserColor(
+                            u,
+                          )} font-bold`}>
+                          {u.name}
+                        </Text>
+                        <Text
+                          className={`text-[11px] ${getUserColor(
+                            u,
+                          )} font-normal`}>
+                          {u.points} Points
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+                </Card.Content>
+              </Card>
+            )}
           </View>
         )}
       </ScrollView>
