@@ -5,10 +5,9 @@ import React, {FC} from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {useAppSelector} from '../../../app/hooks';
 import {RootTabParamList} from '../../../navigation/HomeTab';
 import {TeamStackParamList} from '../../../navigation/TeamStack';
-import {selectAuthUser} from '../../../slices/userSlice';
+import {useGetAuthUserQuery} from '../../../slices/userSlice';
 import {useSetUserTeamMutation} from '../teamSlice';
 
 type Props = CompositeScreenProps<
@@ -18,7 +17,7 @@ type Props = CompositeScreenProps<
 
 const SelectionDonePage: FC<Props> = ({route}) => {
   const {team} = route.params;
-  const user = useAppSelector(selectAuthUser);
+  const {data: user} = useGetAuthUserQuery();
   const [setUserTeam] = useSetUserTeamMutation();
 
   return (

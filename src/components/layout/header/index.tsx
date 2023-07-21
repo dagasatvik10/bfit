@@ -1,14 +1,13 @@
 import React, {FC} from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
 
-import {useAppSelector} from '../../../app/hooks';
-import {selectAuthUser} from '../../../slices/userSlice';
+import {useGetAuthUserQuery} from '../../../slices/userSlice';
 
 type Props = {
   navigate: () => void;
 };
 const Header: FC<Props> = ({navigate}) => {
-  const user = useAppSelector(selectAuthUser);
+  const {data: user} = useGetAuthUserQuery();
   return (
     user && (
       <View className="flex flex-row justify-between pb-2">

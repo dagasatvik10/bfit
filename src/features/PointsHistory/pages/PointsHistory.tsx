@@ -1,16 +1,15 @@
-import React, {FC, useMemo} from 'react';
-import {Image, Pressable, ScrollView, Text, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import React, {FC, useMemo} from 'react';
+import {Image, Pressable, ScrollView, Text, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {useAppSelector} from '../../../app/hooks';
 import Header from '../../../components/layout/header';
 import {HomeStackParamList} from '../../../navigation/HomeStack';
 import {RootTabParamList} from '../../../navigation/HomeTab';
 import {
-  selectAuthUser,
+  useGetAuthUserQuery,
   useSignOutUserMutation,
 } from '../../../slices/userSlice';
 
@@ -34,7 +33,7 @@ const PointsHistoryPage: FC<Props> = ({navigation}) => {
     () => getPreviousDate(currentDate, 7),
     [currentDate],
   );
-  const user = useAppSelector(selectAuthUser);
+  const {data: user} = useGetAuthUserQuery();
   const {data: currentActivities = []} = useFetchCurrentActivitiesQuery({
     currentDate: currentDate.getTime(),
     previousDate: previousDate.getTime(),

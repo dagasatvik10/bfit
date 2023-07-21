@@ -12,16 +12,15 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {useAppSelector} from '../../../app/hooks';
 import {CurrentActivity} from '../../../components/Activity';
 import {TeamPill} from '../../../components/Team';
 import Header from '../../../components/layout/header';
 import {HomeStackParamList} from '../../../navigation/HomeStack';
 import {RootTabParamList} from '../../../navigation/HomeTab';
-import {selectAuthUser} from '../../../slices/userSlice';
+import {useGetAuthUserQuery} from '../../../slices/userSlice';
 import {getTeamPosition, sortTeamsByKey} from '../../../utils';
-import {useFetchCurrentActivitiesQuery} from '../../Activities/activitySlice';
 import {getPreviousDate} from '../../../utils/date';
+import {useFetchCurrentActivitiesQuery} from '../../Activities/activitySlice';
 import {
   useFetchTeamByTeamIdQuery,
   useFetchTeamsQuery,
@@ -56,7 +55,7 @@ const HomePage: FC<Props> = ({navigation}) => {
     [currentDate],
   );
 
-  const user = useAppSelector(selectAuthUser);
+  const {data: user} = useGetAuthUserQuery();
   const {data: selectedTeam} = useFetchTeamByTeamIdQuery(user?.teamId!);
   const {data: allTeams = []} = useFetchTeamsQuery();
   const {data: currentActivities = []} = useFetchCurrentActivitiesQuery({

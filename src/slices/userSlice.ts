@@ -1,10 +1,9 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {createSelector} from '@reduxjs/toolkit';
 
 import {firestoreApi} from '../app/firestoreApi';
-import {User, UserActivities, UserActivity, Users} from '../types';
 import {onUserActivityAdd} from '../lib/activity';
+import {User, UserActivities, UserActivity, Users} from '../types';
 
 export const usersApi = firestoreApi.injectEndpoints({
   overrideExisting: true,
@@ -197,13 +196,6 @@ export const usersApi = firestoreApi.injectEndpoints({
     }),
   }),
 });
-
-export const selectAuthUserResult = usersApi.endpoints.getAuthUser.select();
-
-export const selectAuthUser = createSelector(
-  selectAuthUserResult,
-  user => user.data,
-);
 
 export const {
   useCreateUserMutation,

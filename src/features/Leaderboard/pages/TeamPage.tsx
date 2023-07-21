@@ -1,22 +1,22 @@
 import React, {FC} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Header from '../../../components/layout/header';
-
-import {RootTabParamList} from '../../../navigation/HomeTab';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {LeaderboardStackParamList} from '../../../navigation/LeaderboardStack';
-import {useFetchTeamByTeamIdQuery} from '../../TeamSelection/teamSlice';
-import {TeamPill} from '../../../components/Team';
-import {useAppSelector} from '../../../app/hooks';
-import {
-  selectAuthUser,
-  useFetchUsersByTeamIdQuery,
-} from '../../../slices/userSlice';
 import {Card} from 'react-native-paper';
+
+import Header from '../../../components/layout/header';
+
+import {TeamPill} from '../../../components/Team';
+import {RootTabParamList} from '../../../navigation/HomeTab';
+import {LeaderboardStackParamList} from '../../../navigation/LeaderboardStack';
+import {
+  useFetchUsersByTeamIdQuery,
+  useGetAuthUserQuery,
+} from '../../../slices/userSlice';
 import {User} from '../../../types';
+import {useFetchTeamByTeamIdQuery} from '../../TeamSelection/teamSlice';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<LeaderboardStackParamList, 'Team'>,
@@ -25,7 +25,7 @@ type Props = CompositeScreenProps<
 
 export const TeamPage: FC<Props> = ({route, navigation}) => {
   const {teamId} = route.params;
-  const user = useAppSelector(selectAuthUser);
+  const {data: user} = useGetAuthUserQuery();
   const {data: team} = useFetchTeamByTeamIdQuery(teamId);
   const {data: users = []} = useFetchUsersByTeamIdQuery({teamId});
   const getUserColor = (u: User) =>

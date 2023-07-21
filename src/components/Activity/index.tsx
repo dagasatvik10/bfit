@@ -2,11 +2,10 @@ import React, {FC} from 'react';
 import {Image, Linking, Pressable, Text, View} from 'react-native';
 import {IconButton} from 'react-native-paper';
 
-import {useAppSelector} from '../../app/hooks';
 import {
-  selectAuthUser,
   useAddUserActivityMutation,
   useFetchUserActivityQuery,
+  useGetAuthUserQuery,
 } from '../../slices/userSlice';
 
 interface Props {
@@ -22,7 +21,7 @@ export const CurrentActivity: FC<Props> = ({
   description,
   points,
 }) => {
-  const user = useAppSelector(selectAuthUser);
+  const {data: user} = useGetAuthUserQuery();
   const {data: userActivity} = useFetchUserActivityQuery(
     {activityId: id},
     {refetchOnMountOrArgChange: true},

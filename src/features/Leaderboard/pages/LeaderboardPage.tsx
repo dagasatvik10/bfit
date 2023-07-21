@@ -5,12 +5,11 @@ import React, {FC, useMemo} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {useAppSelector} from '../../../app/hooks';
 import {TeamPill} from '../../../components/Team';
 import Header from '../../../components/layout/header';
 import {RootTabParamList} from '../../../navigation/HomeTab';
 import {LeaderboardStackParamList} from '../../../navigation/LeaderboardStack';
-import {selectAuthUser} from '../../../slices/userSlice';
+import {useGetAuthUserQuery} from '../../../slices/userSlice';
 import {Team} from '../../../types';
 import {getTeamPosition, sortTeamsByKey} from '../../../utils';
 import {
@@ -24,7 +23,7 @@ type Props = CompositeScreenProps<
 >;
 
 const LeaderboardPage: FC<Props> = ({navigation}) => {
-  const user = useAppSelector(selectAuthUser);
+  const {data: user} = useGetAuthUserQuery();
   const {data: selectedTeamData} = useFetchTeamByTeamIdQuery(user?.teamId!);
   const {data: allTeams = []} = useFetchTeamsQuery();
 
