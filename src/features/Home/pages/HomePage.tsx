@@ -90,12 +90,7 @@ const HomePage: FC<Props> = ({navigation}) => {
             navigate={() => navigation.navigate('Activities')}
           />
           {currentActivities[0] && (
-            <CurrentActivity
-              id={currentActivities[0].id}
-              title={currentActivities[0].title}
-              description={currentActivities[0].description}
-              points={currentActivities[0].points}
-            />
+            <CurrentActivity {...currentActivities[0]} />
           )}
         </View>
         {/* Health Tips */}

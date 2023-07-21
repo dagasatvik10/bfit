@@ -23,6 +23,7 @@ export interface Activity {
   id: string;
   title: string;
   description: string;
+  youtubeLink?: string;
   points: number;
   start: number; // timestamp
   end: number; // timestamp

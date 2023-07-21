@@ -13,6 +13,7 @@ interface Props {
   title: string;
   description: string;
   points: number;
+  youtubeLink?: string;
 }
 
 export const CurrentActivity: FC<Props> = ({
@@ -20,6 +21,7 @@ export const CurrentActivity: FC<Props> = ({
   title,
   description,
   points,
+  youtubeLink,
 }) => {
   const {data: user} = useGetAuthUserQuery();
   const {data: userActivity} = useFetchUserActivityQuery(
@@ -39,17 +41,15 @@ export const CurrentActivity: FC<Props> = ({
       <View className="flex flex-row items-center justify-center">
         <Text className="text-base text-black font-normal">{description}</Text>
       </View>
-      <Pressable
-        onPress={() =>
-          Linking.openURL(
-            'https://www.youtube.com/watch?v=nP2AMCY_CMI&pp=ygUQbWVkaXRhdGlvbiBtdXNpYw%3D%3D',
-          )
-        }
-        className="flex flex-row items-center justify-center">
-        <Text className="text-base text-blue-500 font-normal">
-          youtube link
-        </Text>
-      </Pressable>
+      {youtubeLink && (
+        <Pressable
+          onPress={() => Linking.openURL(youtubeLink)}
+          className="flex flex-row items-center justify-center my-2">
+          <Text className="text-base text-blue-500 font-normal">
+            Watch video
+          </Text>
+        </Pressable>
+      )}
       <View className="w-full py-2">
         {userActivity?.completed ? (
           <View className="rounded-full bg-[#018e89] items-center py-2 my-4 w-full">
