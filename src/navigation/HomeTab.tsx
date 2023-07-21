@@ -84,6 +84,7 @@ export const HomeTab = () => {
         options={{
           tabBarIcon: HomeBarIcon,
           tabBarActiveTintColor: '#018e89',
+          title: 'Home',
         }}
       />
       <Tab.Screen
@@ -92,6 +93,7 @@ export const HomeTab = () => {
         options={{
           tabBarIcon: LeaderboardBarIcon,
           tabBarActiveTintColor: '#018e89',
+          title: 'Leaderboard',
         }}
       />
       <Tab.Screen
@@ -100,6 +102,7 @@ export const HomeTab = () => {
         options={{
           tabBarIcon: ActivitiesBarIcon,
           tabBarActiveTintColor: '#018e89',
+          title: 'Activities',
         }}
       />
     </Tab.Navigator>
