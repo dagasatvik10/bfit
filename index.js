@@ -22,7 +22,7 @@ AppRegistry.registerComponent(appName, () => () => (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <PaperProvider>
+          <PaperProvider theme={{dark: false}}>
             <SafeAreaProvider>
               <App />
             </SafeAreaProvider>
