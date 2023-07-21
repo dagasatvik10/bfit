@@ -2,7 +2,6 @@ import firestore from '@react-native-firebase/firestore';
 
 import {firestoreApi} from '../../app/firestoreApi';
 import {Activities, Activity} from '../../types';
-import {getTimeInMilliseconds} from '../../utils/date';
 
 export const activityApi = firestoreApi.injectEndpoints({
   overrideExisting: true,
@@ -30,14 +29,8 @@ export const activityApi = firestoreApi.injectEndpoints({
             activities.push({
               id: doc.id,
               ...data,
-              start: getTimeInMilliseconds(
-                data.start.seconds,
-                data.start.nanoseconds,
-              ),
-              end: getTimeInMilliseconds(
-                data.end.seconds,
-                data.end.nanoseconds,
-              ),
+              start: data.start.toMillis(),
+              end: data.end.toMillis(),
             } as Activity);
           });
           return {data: activities};
@@ -70,14 +63,8 @@ export const activityApi = firestoreApi.injectEndpoints({
             activities.push({
               id: doc.id,
               ...data,
-              start: getTimeInMilliseconds(
-                data.start.seconds,
-                data.start.nanoseconds,
-              ),
-              end: getTimeInMilliseconds(
-                data.end.seconds,
-                data.end.nanoseconds,
-              ),
+              start: data.start.toMillis(),
+              end: data.end.toMillis(),
             } as Activity);
           });
           return {data: activities};

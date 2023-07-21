@@ -18,7 +18,13 @@ export const usersApi = firestoreApi.injectEndpoints({
             const docSnapshot = await ref.get();
             const userData = docSnapshot.data();
             if (userData) {
-              return {data: {...userData, id: docSnapshot.id} as User};
+              return {
+                data: {
+                  id: docSnapshot.id,
+                  ...userData,
+                  createdAt: userData.createdAt.toMillis(),
+                } as User,
+              };
             }
           }
           return {data: null};

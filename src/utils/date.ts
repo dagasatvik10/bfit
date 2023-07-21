@@ -3,7 +3,3 @@ export const getPreviousDate = (date: Date, days: number) => {
   previousDate.setDate(previousDate.getDate() - days);
   return previousDate;
 };
-
-export const getTimeInMilliseconds = (seconds: number, nanoseconds: number) => {
-  return seconds * 100 + nanoseconds / 1000000;
-};
