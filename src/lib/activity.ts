@@ -24,7 +24,7 @@ export function onUserActivityAdd(
     }
 
     transaction.set(userActivityRef, {
-      completedAt: firestore.Timestamp.fromMillis(Date.now()),
+      completedAt: firestore.Timestamp.now(),
       completed: true,
       points,
     });

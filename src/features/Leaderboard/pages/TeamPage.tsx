@@ -11,7 +11,10 @@ import {LeaderboardStackParamList} from '../../../navigation/LeaderboardStack';
 import {useFetchTeamByTeamIdQuery} from '../../TeamSelection/teamSlice';
 import {TeamPill} from '../../../components/Team';
 import {useAppSelector} from '../../../app/hooks';
-import {selectAuthUser} from '../../../slices/userSlice';
+import {
+  selectAuthUser,
+  useFetchUsersByTeamIdQuery,
+} from '../../../slices/userSlice';
 import {Card} from 'react-native-paper';
 import {User} from '../../../types';
 
@@ -20,31 +23,14 @@ type Props = CompositeScreenProps<
   BottomTabScreenProps<RootTabParamList>
 >;
 
-const USERS: User[] = [
-  {
-    id: 'johndoe@example.com',
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    points: 100,
-    teamId: 'nXtcf99bC9FlZ62bgBm2',
-    createdAt: Date.now(),
-  },
-  {
-    id: 'satvikdaga@gmail.com',
-    name: 'Satvik Daga',
-    email: 'satvik@example.com',
-    points: 200,
-    teamId: 'nXtcf99bC9FlZ62bgBm2',
-    createdAt: Date.now(),
-  },
-];
-
 export const TeamPage: FC<Props> = ({route, navigation}) => {
   const {teamId} = route.params;
   const user = useAppSelector(selectAuthUser);
   const {data: team} = useFetchTeamByTeamIdQuery(teamId);
+  const {data: users = []} = useFetchUsersByTeamIdQuery({teamId});
   const getUserColor = (u: User) =>
     u.id === user?.id ? 'text-[#018e89]' : 'text-[#424242]';
+
   return (
     <SafeAreaView className="container flex-1">
       <ScrollView className="flex flex-col my-4 mx-4">
@@ -81,7 +67,7 @@ export const TeamPage: FC<Props> = ({route, navigation}) => {
                     </Text>
                   </View>
                   <View className="border-[1px] border-dashed border-[#cccccc]" />
-                  {USERS.map(u => (
+                  {users.map(u => (
                     <View
                       key={u.id}
                       className="flex flex-row justify-between my-2">

@@ -17,6 +17,8 @@ export interface User {
   createdAt: number;
 }
 
+export type Users = User[];
+
 export interface Activity {
   id: string;
   title: string;

@@ -3,7 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 import {createSelector} from '@reduxjs/toolkit';
 
 import {firestoreApi} from '../app/firestoreApi';
-import {User, UserActivities, UserActivity} from '../types';
+import {User, UserActivities, UserActivity, Users} from '../types';
 import {onUserActivityAdd} from '../lib/activity';
 
 export const usersApi = firestoreApi.injectEndpoints({
@@ -29,6 +29,30 @@ export const usersApi = firestoreApi.injectEndpoints({
       },
       providesTags: ['User'],
     }),
+    fetchUsersByTeamId: builder.query<Users, {teamId: string}>({
+      async queryFn({teamId}) {
+        try {
+          const ref = firestore().collection('users');
+          const querySnapshot = await ref
+            .where('teamId', '==', teamId)
+            .orderBy('points', 'desc')
+            .get();
+          const users: Users = [];
+          querySnapshot.forEach(doc => {
+            const data = doc.data();
+            users.push({
+              id: doc.id,
+              ...data,
+              createdAt: data.createdAt.toMillis(),
+            } as User);
+          });
+          return {data: users};
+        } catch (error: any) {
+          console.error(error);
+          return {error: error.message};
+        }
+      },
+    }),
     createUser: builder.mutation<
       null,
       Pick<User, 'name' | 'email'> & {password: string}
@@ -38,7 +62,12 @@ export const usersApi = firestoreApi.injectEndpoints({
           const {name, email, password} = args;
           await auth().createUserWithEmailAndPassword(email, password);
           const ref = firestore().collection('users').doc(email);
-          await ref.set({name, email, points: 0, createdAt: Date.now()});
+          await ref.set({
+            name,
+            email,
+            points: 0,
+            createdAt: firestore.Timestamp.now(),
+          });
           return {data: null};
         } catch (error: any) {
           if (error.code === 'auth/email-already-in-use') {
@@ -178,4 +207,5 @@ export const {
   useAddUserActivityMutation,
   useFetchUserActivityQuery,
   useFetchUserActivitiesQuery,
+  useFetchUsersByTeamIdQuery,
 } = usersApi;
