@@ -1,12 +1,19 @@
 import React, {FC} from 'react';
-import {Image, Linking, Pressable, Text, View} from 'react-native';
-import {IconButton} from 'react-native-paper';
+import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Asset,
+  launchCamera,
+  launchImageLibrary,
+} from 'react-native-image-picker';
+import {Button, IconButton, Modal, Portal} from 'react-native-paper';
+import storage from '@react-native-firebase/storage';
 
 import {
   useAddUserActivityMutation,
   useFetchUserActivityQuery,
   useGetAuthUserQuery,
 } from '../../slices/userSlice';
+// import {ImageUploader} from '../ImageUpload';
 
 interface Props {
   id: string;
@@ -15,6 +22,14 @@ interface Props {
   points: number;
   youtubeLink?: string;
 }
+
+const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    width: '100%',
+    resizeMode: 'contain',
+  },
+});
 
 export const CurrentActivity: FC<Props> = ({
   id,
@@ -29,8 +44,54 @@ export const CurrentActivity: FC<Props> = ({
     {refetchOnMountOrArgChange: true},
   );
   const [addUserActivity] = useAddUserActivityMutation();
+
+  const [showImagePicker, setShowImagePicker] = React.useState(false);
+  const [image, setImage] = React.useState<Asset | null>(null);
+
+  const showModal = () => setShowImagePicker(true);
+  const hideModal = () => setShowImagePicker(false);
+
+  const containerStyle = {
+    backgroundColor: 'white',
+    padding: 20,
+  };
+
+  const reference = storage().ref(`activities/${user?.id}-${id}.jpg`);
+
   return (
     <View className="my-4 py-4 px-4 bg-[#fef8f1] h-48 rounded-2xl shadow flex flex-col justify-between w-full">
+      <Portal>
+        <Modal
+          contentContainerStyle={containerStyle}
+          visible={showImagePicker}
+          onDismiss={hideModal}>
+          <View className="flex flex-col justify-center w-full">
+            {image && (
+              <>
+                <View className="flex flex-col justify-center w-full h-56 py-2">
+                  <Image style={styles.image} source={{uri: image?.uri}} />
+                </View>
+                <View className="flex flex-row justify-center pt-2">
+                  <Button
+                    onPress={async () => {
+                      await reference.putFile(image?.uri!);
+                      await addUserActivity({
+                        activityId: id,
+                        points,
+                        userId: user?.id!,
+                        teamId: user?.teamId!,
+                      }).unwrap();
+                      hideModal();
+                    }}
+                    mode="contained">
+                    Upload
+                  </Button>
+                </View>
+              </>
+            )}
+          </View>
+        </Modal>
+      </Portal>
       <View className="flex flex-row justify-between py-2">
         <Text className="text-black font-bold text-base">{title}</Text>
         <View className="flex flex-row items-center justify-around">
@@ -57,9 +118,39 @@ export const CurrentActivity: FC<Props> = ({
           </View>
         ) : (
           <View className="flex flex-row justify-between items-center">
-            <View className="flex flex-row justify-start items-center">
+            <View className="flex flex-row justify-start items-center w-1/4">
               <IconButton
+                onPress={() =>
+                  launchCamera({mediaType: 'photo'}, response =>
+                    console.log(response),
+                  )
+                }
                 icon="camera"
+                iconColor="#018e89"
+                size={20}
+                className="w-1/4"
+              />
+              <IconButton
+                onPress={() =>
+                  launchImageLibrary(
+                    {mediaType: 'photo', quality: 1},
+                    response => {
+                      if (response.errorCode) {
+                        console.log(
+                          'ImagePicker Error: ',
+                          response.errorMessage,
+                        );
+                      } else if (response.assets) {
+                        console.log('ImagePicker response: ', response.assets);
+                        const asset = response.assets[0];
+                        console.log('Image size: ', asset.fileSize);
+                        setImage(asset ?? null);
+                        showModal();
+                      }
+                    },
+                  )
+                }
+                icon="image"
                 iconColor="#018e89"
                 size={20}
                 className="w-1/4"

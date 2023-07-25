@@ -54,7 +54,6 @@ export const activityApi = firestoreApi.injectEndpoints({
           const querySnapshot = await ref
             .orderBy('end', 'asc')
             .orderBy('title', 'asc')
-            // .startAt(previousTimestamp)
             .endAt(currentTimestamp)
             .get();
           const activities: Activities = [];
