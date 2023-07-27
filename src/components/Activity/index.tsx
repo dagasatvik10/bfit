@@ -3,6 +3,7 @@ import React, {FC} from 'react';
 import {Image, Linking, Pressable, Text, View} from 'react-native';
 import {
   Asset,
+  ImagePickerResponse,
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
@@ -46,6 +47,16 @@ export const CurrentActivity: FC<Props> = ({
   const containerStyle = {
     backgroundColor: 'white',
     padding: 20,
+  };
+
+  const onImageSelected = (imageResponse: ImagePickerResponse) => {
+    if (imageResponse.errorCode) {
+      console.log('ImagePicker Error: ', imageResponse.errorMessage);
+    } else if (imageResponse.assets) {
+      const asset = imageResponse.assets[0];
+      setImage(asset ?? null);
+      showModal();
+    }
   };
 
   const reference = storage().ref(`activities/${user?.id}-${Date.now()}.jpg`);
@@ -113,9 +124,7 @@ export const CurrentActivity: FC<Props> = ({
             <View className="flex flex-row justify-start items-center w-1/4">
               <IconButton
                 onPress={() =>
-                  launchCamera({mediaType: 'photo'}, response =>
-                    console.log(response),
-                  )
+                  launchCamera({mediaType: 'photo'}, onImageSelected)
                 }
                 icon="camera"
                 iconColor="#018e89"
@@ -129,20 +138,7 @@ export const CurrentActivity: FC<Props> = ({
                       mediaType: 'photo',
                       quality: 0.5,
                     },
-                    response => {
-                      if (response.errorCode) {
-                        console.log(
-                          'ImagePicker Error: ',
-                          response.errorMessage,
-                        );
-                      } else if (response.assets) {
-                        console.log('ImagePicker response: ', response.assets);
-                        const asset = response.assets[0];
-                        console.log('Image size: ', asset.fileSize);
-                        setImage(asset ?? null);
-                        showModal();
-                      }
-                    },
+                    onImageSelected,
                   )
                 }
                 icon="image"
