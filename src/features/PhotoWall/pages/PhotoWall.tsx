@@ -12,7 +12,12 @@ type Props = BottomTabScreenProps<RootTabParamList, 'PhotoWall'>;
 
 export const PhotoWallPage: FC<Props> = ({navigation}) => {
   const [pageToken, setPageToken] = useState<string>('');
-  const {data: imageData, isFetching} = useFetchImagesQuery({pageToken});
+  const {data: imageData, isFetching} = useFetchImagesQuery(
+    {pageToken},
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
 
   return (
     <SafeAreaView className="container flex p-2">
