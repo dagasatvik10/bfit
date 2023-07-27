@@ -1,19 +1,19 @@
+import storage from '@react-native-firebase/storage';
 import React, {FC} from 'react';
-import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Linking, Pressable, Text, View} from 'react-native';
 import {
   Asset,
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
 import {Button, IconButton, Modal, Portal} from 'react-native-paper';
-import storage from '@react-native-firebase/storage';
 
 import {
   useAddUserActivityMutation,
   useFetchUserActivityQuery,
   useGetAuthUserQuery,
 } from '../../slices/userSlice';
-// import {ImageUploader} from '../ImageUpload';
+import SquareImage from '../atoms/SquareImage';
 
 interface Props {
   id: string;
@@ -22,14 +22,6 @@ interface Props {
   points: number;
   youtubeLink?: string;
 }
-
-const styles = StyleSheet.create({
-  image: {
-    flex: 1,
-    width: '100%',
-    resizeMode: 'contain',
-  },
-});
 
 export const CurrentActivity: FC<Props> = ({
   id,
@@ -56,7 +48,7 @@ export const CurrentActivity: FC<Props> = ({
     padding: 20,
   };
 
-  const reference = storage().ref(`activities/${user?.id}-${id}.jpg`);
+  const reference = storage().ref(`activities/${user?.id}-${Date.now()}.jpg`);
 
   return (
     <View className="my-4 py-4 px-4 bg-[#fef8f1] h-48 rounded-2xl shadow flex flex-col justify-between w-full">
@@ -68,8 +60,8 @@ export const CurrentActivity: FC<Props> = ({
           <View className="flex flex-col justify-center w-full">
             {image && (
               <>
-                <View className="flex flex-col justify-center w-full h-56 py-2">
-                  <Image style={styles.image} source={{uri: image?.uri}} />
+                <View className="flex flex-row justify-center w-full py-2">
+                  <SquareImage uri={image?.uri!} />
                 </View>
                 <View className="flex flex-row justify-center pt-2">
                   <Button
@@ -133,7 +125,10 @@ export const CurrentActivity: FC<Props> = ({
               <IconButton
                 onPress={() =>
                   launchImageLibrary(
-                    {mediaType: 'photo', quality: 1},
+                    {
+                      mediaType: 'photo',
+                      quality: 0.5,
+                    },
                     response => {
                       if (response.errorCode) {
                         console.log(

@@ -29,6 +29,9 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
+      immutableCheck: {
+        warnAfter: 1000,
+      },
     }).concat(firestoreApi.middleware),
 });
 

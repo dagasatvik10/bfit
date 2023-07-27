@@ -2,8 +2,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {FC} from 'react';
 import {Image} from 'react-native';
 import {NavigatorScreenParams} from '@react-navigation/native';
+import Icon from 'react-native-paper/src/components/Icon';
 
-import {ActivitiesPage} from '../features';
+import {ActivitiesPage, PhotoWallPage} from '../features';
 import {HomeStack, HomeStackParamList} from './HomeStack';
 import {LeaderboardStack, LeaderboardStackParamList} from './LeaderboardStack';
 
@@ -65,10 +66,23 @@ const LeaderboardBarIcon: FC<BarIconProps> = ({focused}) => {
   );
 };
 
+const PhotoWallBarIcon: FC<BarIconProps> = ({focused}) => {
+  return (
+    <>
+      {focused ? (
+        <Icon size={20} source="view-dashboard-outline" color="#018e89" />
+      ) : (
+        <Icon size={20} source="view-dashboard-outline" color="#717171" />
+      )}
+    </>
+  );
+};
+
 export type RootTabParamList = {
   HomeStack: NavigatorScreenParams<HomeStackParamList>;
   Activities: undefined;
   LeaderboardStack: NavigatorScreenParams<LeaderboardStackParamList>;
+  PhotoWall: undefined;
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -103,6 +117,15 @@ export const HomeTab = () => {
           tabBarIcon: ActivitiesBarIcon,
           tabBarActiveTintColor: '#018e89',
           title: 'Activities',
+        }}
+      />
+      <Tab.Screen
+        name="PhotoWall"
+        component={PhotoWallPage}
+        options={{
+          tabBarIcon: PhotoWallBarIcon,
+          tabBarActiveTintColor: '#018e89',
+          title: 'PhotoWall',
         }}
       />
     </Tab.Navigator>

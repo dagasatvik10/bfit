@@ -40,3 +40,10 @@ export interface UserActivity {
 }
 
 export type UserActivities = UserActivity[];
+
+export type Image = {
+  name: string;
+  uri: string;
+};
+
+export type Images = Image[];
