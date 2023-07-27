@@ -1,7 +1,8 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import React, {FC, useState} from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, Pressable, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import ImageView from 'react-native-image-viewing';
 
 import SquareImage from '../../../components/atoms/SquareImage';
 import Header from '../../../components/layout/header';
@@ -10,7 +11,16 @@ import {useFetchImagesQuery} from '../slices/imageSlice';
 
 type Props = BottomTabScreenProps<RootTabParamList, 'PhotoWall'>;
 
+interface IImageViewer {
+  index: number;
+  visible: boolean;
+}
+
 export const PhotoWallPage: FC<Props> = ({navigation}) => {
+  const [imageViewerData, setImageViewerData] = useState<IImageViewer>({
+    index: 0,
+    visible: false,
+  });
   const [pageToken, setPageToken] = useState<string>('');
   const {data: imageData, isFetching} = useFetchImagesQuery(
     {pageToken},
@@ -21,6 +31,12 @@ export const PhotoWallPage: FC<Props> = ({navigation}) => {
 
   return (
     <SafeAreaView className="container flex p-2">
+      <ImageView
+        images={imageData?.images.map(image => ({uri: image.uri})) ?? []}
+        imageIndex={imageViewerData.index}
+        visible={imageViewerData.visible}
+        onRequestClose={() => setImageViewerData({index: 0, visible: false})}
+      />
       <View className="flex flex-col ">
         <FlatList
           ListHeaderComponent={
@@ -35,9 +51,17 @@ export const PhotoWallPage: FC<Props> = ({navigation}) => {
           numColumns={2}
           keyExtractor={item => item.name}
           data={imageData?.images ?? []}
-          renderItem={({item}) => (
+          renderItem={({item, index}) => (
             <View className="p-2 w-1/2">
-              <SquareImage uri={item?.uri!} />
+              <Pressable
+                onPress={() =>
+                  setImageViewerData({
+                    index,
+                    visible: true,
+                  })
+                }>
+                <SquareImage uri={item?.uri!} />
+              </Pressable>
             </View>
           )}
           extraData={imageData?.images}
