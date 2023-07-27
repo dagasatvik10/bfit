@@ -15,7 +15,7 @@ const Header: FC<Props> = ({navigate}) => {
           className="flex flex-row w-1/3 justify-start items-center"
           onPress={() => navigate()}>
           <Image
-            source={require('../../../assets/images/profile.webp')}
+            source={require('../../../assets/images/logo.webp')}
             className="w-[50px] h-[50px] rounded-full"
           />
           <View className="flex flex-col justify-center items-center ml-1">
