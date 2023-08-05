@@ -92,11 +92,12 @@ const PointsHistoryPage: FC<Props> = ({navigation}) => {
                 Earned Points
               </Text>
             </View>
-            {[...currentActivities, ...pastActivities].map(
-              (activity: Activity) => (
-                <Points activity={activity} key={activity.id} />
-              ),
-            )}
+            {currentActivities.map((activity: Activity) => (
+              <Points isCurrent={true} activity={activity} key={activity.id} />
+            ))}
+            {pastActivities.map((activity: Activity) => (
+              <Points activity={activity} key={activity.id} />
+            ))}
           </View>
           <View className="border-[1px] border-[#e5e5e5] my-2" />
           <View className="flex flex-row justify-center my-2">
