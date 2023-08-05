@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>791972729440-s5d7avbni0eq1a6l2dhrvuu3i5jpig7a.apps.googleusercontent.com</string>
+	<string>1039990595816-0ctl1kk6fpt0j9ii47t2vl4617kgm2uu.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.791972729440-s5d7avbni0eq1a6l2dhrvuu3i5jpig7a</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>791972729440-dshhehjthcvfk8i8p9olhcm61m4r4uv2.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.1039990595816-0ctl1kk6fpt0j9ii47t2vl4617kgm2uu</string>
 	<key>API_KEY</key>
-	<string>AIzaSyB4JG_4KAOF230GC3Yt8FHMr8GQMkrE02Y</string>
+	<string>AIzaSyBEF9OyTiTmpjuC8Bc1gqTveCb4s_GfH4I</string>
 	<key>GCM_SENDER_ID</key>
-	<string>791972729440</string>
+	<string>1039990595816</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.bfit</string>
+	<string>com.simplifit.bfit</string>
 	<key>PROJECT_ID</key>
-	<string>bfit-392012</string>
+	<string>bfit-187fe</string>
 	<key>STORAGE_BUCKET</key>
-	<string>bfit-392012.appspot.com</string>
+	<string>bfit-187fe.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:791972729440:ios:2d2bb1ecc8f27da4362905</string>
+	<string>1:1039990595816:ios:353014061ea63a7cc5295d</string>
 </dict>
 </plist>

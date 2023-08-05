@@ -74,9 +74,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.bfit"
+    namespace "com.simplifit.bfit"
     defaultConfig {
-        applicationId "com.bfit"
+        applicationId "com.simplifit.bfit"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
