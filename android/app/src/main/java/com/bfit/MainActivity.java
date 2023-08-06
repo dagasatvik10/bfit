@@ -1,4 +1,4 @@
-package com.bfit;
+package com.simplifit.bfit;
 
 import android.os.Bundle; // splash screen
 import com.facebook.react.ReactActivity;

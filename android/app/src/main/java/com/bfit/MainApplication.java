@@ -1,4 +1,4 @@
-package com.bfit;
+package com.simplifit.bfit;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
