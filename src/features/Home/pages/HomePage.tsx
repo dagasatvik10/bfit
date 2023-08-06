@@ -25,6 +25,7 @@ import {
   useFetchTeamByTeamIdQuery,
   useFetchTeamsQuery,
 } from '../../TeamSelection/teamSlice';
+import {useFetchMetaQuery} from '../slices/metaSlice';
 
 type SectionTitleProps = {
   title: string;
@@ -61,6 +62,10 @@ const HomePage: FC<Props> = ({navigation}) => {
     currentDate: currentDate.getTime(),
     previousDate: previousDate.getTime(),
   });
+  const {data: metaData} = useFetchMetaQuery({
+    currentDate: currentDate.getTime(),
+    previousDate: previousDate.getTime(),
+  });
 
   const allTeamsSorted = useMemo(
     () => sortTeamsByKey(allTeams.slice(), 'points', 'desc'),
@@ -71,6 +76,13 @@ const HomePage: FC<Props> = ({navigation}) => {
     () => getTeamPosition(allTeamsSorted, selectedTeam!),
     [allTeamsSorted, selectedTeam],
   );
+
+  const getRandomHealthTip = () => {
+    const healthTips = metaData?.health_tips;
+    const randomIndex = Math.floor(Math.random() * healthTips?.length!);
+    return healthTips?.[randomIndex];
+  };
+
   return (
     <SafeAreaView className="flex-1 container">
       <ScrollView className="flex-1 px-4 py-4">
@@ -79,7 +91,7 @@ const HomePage: FC<Props> = ({navigation}) => {
         <View className="py-2">
           <Image
             className="rounded w-full h-52"
-            source={require('../assets/images/workshop.webp')}
+            source={{uri: metaData?.home_banner}}
           />
         </View>
         {/* Active Challenge */}
@@ -106,9 +118,7 @@ const HomePage: FC<Props> = ({navigation}) => {
               <View className="border-b-2 border-white" />
               <View>
                 <Text className="text-white text-lg font-normal py-2">
-                  Eat a balanced diet, stay hydrated, exercise regularly, get
-                  enough sleep, and practice good hygiene for overall health and
-                  well-being.
+                  {getRandomHealthTip()}
                 </Text>
               </View>
             </View>

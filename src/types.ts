@@ -47,3 +47,10 @@ export type Image = {
 };
 
 export type Images = Image[];
+
+export type Meta = {
+  id: string;
+  health_tips: string[];
+  home_banner: string;
+  start: number;
+};
