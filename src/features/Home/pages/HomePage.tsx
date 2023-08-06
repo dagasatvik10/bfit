@@ -35,7 +35,6 @@ const SectionTitle: FC<SectionTitleProps> = ({title, navigate}) => {
   return (
     <View className="py-2 flex flex-row justify-between">
       <Text className="text-base text-[#424242] font-medium">{title}</Text>
-      {/* TODO: navigate */}
       <Pressable onPress={() => navigate()}>
         <Text className="text-[#018e89] font-medium text-base">View all</Text>
       </Pressable>
@@ -89,7 +88,7 @@ const HomePage: FC<Props> = ({navigation}) => {
             title="Active Challenge"
             navigate={() => navigation.navigate('Activities')}
           />
-          {currentActivities[0] && (
+          {currentActivities.length > 0 && (
             <CurrentActivity {...currentActivities[0]} />
           )}
         </View>
