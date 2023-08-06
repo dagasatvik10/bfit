@@ -36,7 +36,6 @@ export const SelectTeamPage: FC<Props> = ({navigation}) => {
         useNativeDriver: true,
       }).start(() => {
         setTimeout(() => {
-          console.log('selected', selected);
           navigation.navigate('SelectionDone', {team: selected});
         }, 1000);
       });
@@ -44,14 +43,13 @@ export const SelectTeamPage: FC<Props> = ({navigation}) => {
 
     return (
       <SafeAreaView className="flex-1">
-        <View className="basis-1/3 justify-center items-center">
+        <View className="basis-1/4 justify-center items-center">
           <View className="flex-1 justify-center">
             <Text className="text-black text-2xl text-center py-1 font-bold">
               Find Out Your Team
             </Text>
           </View>
           <View className="basis-1/4">
-            {/* TODO: navigate to home screen */}
             <Pressable onPress={async () => spinWheel()}>
               <View className="rounded-full w-80 bg-[#f9c06c] items-center p-2">
                 <Text className="text-2xl font-bold text-black">Tap here</Text>
@@ -60,9 +58,9 @@ export const SelectTeamPage: FC<Props> = ({navigation}) => {
           </View>
         </View>
 
-        <View className="basis-2/3 items-center justify-end pb-4">
+        <View className="basis-3/4 items-center justify-end pb-2">
           <Image
-            className="-m-8 z-10"
+            className="-m-20 z-10"
             source={require('../assets/images/arrow.webp')}
           />
           <Animated.Image
