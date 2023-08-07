@@ -57,7 +57,7 @@ const HomePage: FC<Props> = ({navigation}) => {
 
   const {data: user} = useGetAuthUserQuery();
   const {data: selectedTeam} = useFetchTeamByTeamIdQuery(user?.teamId!);
-  const {data: allTeams = []} = useFetchTeamsQuery();
+  const {data: allTeams = []} = useFetchTeamsQuery('all');
   const {data: currentActivities = []} = useFetchCurrentActivitiesQuery({
     currentDate: currentDate.getTime(),
     previousDate: previousDate.getTime(),
