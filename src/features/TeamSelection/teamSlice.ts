@@ -1,12 +1,11 @@
 import firestore from '@react-native-firebase/firestore';
-import {createSelector} from '@reduxjs/toolkit';
 
 import {firestoreApi} from '../../app/firestoreApi';
 import {Team, Teams} from '../../types';
 
 export const teamsApi = firestoreApi.injectEndpoints({
   endpoints: builder => ({
-    fetchTeams: builder.query<Teams, void>({
+    fetchTeams: builder.query<Teams, string>({
       async queryFn() {
         try {
           const ref = firestore().collection('teams');
@@ -55,19 +54,6 @@ export const teamsApi = firestoreApi.injectEndpoints({
     }),
   }),
 });
-
-export const selectAllTeamsResult = teamsApi.endpoints.fetchTeams.select();
-
-export const selectAllTeams = createSelector(
-  selectAllTeamsResult,
-  teamsResult => teamsResult.data ?? [],
-);
-
-// export const selectTeamByTeamId = createSelector(
-//   selectAllTeams,
-//   (state, teamId) => teamId,
-//   (teams: Teams, teamId) => teams.find(team => team.id === teamId),
-// );
 
 export const {
   useFetchTeamByTeamIdQuery,

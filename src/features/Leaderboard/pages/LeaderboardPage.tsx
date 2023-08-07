@@ -25,7 +25,9 @@ type Props = CompositeScreenProps<
 const LeaderboardPage: FC<Props> = ({navigation}) => {
   const {data: user} = useGetAuthUserQuery();
   const {data: selectedTeamData} = useFetchTeamByTeamIdQuery(user?.teamId!);
-  const {data: allTeams = []} = useFetchTeamsQuery();
+  const {data: allTeams = []} = useFetchTeamsQuery('all', {
+    refetchOnMountOrArgChange: true,
+  });
 
   const allTeamsSorted = useMemo(
     () => sortTeamsByKey(allTeams.slice(), 'points', 'desc'),
