@@ -8,26 +8,28 @@ import {AuthStackParamList} from '../../../navigation/AuthStack';
 import {useSignInUserMutation} from '../../../slices/userSlice';
 import {validateEmail, validatePassword} from '../utils';
 
-interface LoginError {
-  email?: string;
-  password?: string;
-}
-
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const LoginPage: FC<Props> = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hidePassword, setHidePassword] = useState(true);
-  const [error, setError] = useState<LoginError>({});
+  const [error, setError] = useState<string | null>(null);
 
   const [signInUser] = useSignInUserMutation();
 
   const handleSignin = useCallback(async () => {
-    if (!error.email && !error.password) {
-      await signInUser({email, password}).unwrap();
+    let errorText =
+      (validateEmail(email) || validatePassword(password)) ?? null;
+    setError(errorText);
+    if (!errorText) {
+      try {
+        await signInUser({email, password}).unwrap();
+      } catch (e: any) {
+        setError(e);
+      }
     }
-  }, [error.email, error.password, signInUser, email, password]);
+  }, [signInUser, email, password]);
 
   return (
     <SafeAreaView className="container flex-1">
@@ -48,11 +50,7 @@ const LoginPage: FC<Props> = ({navigation}) => {
             autoCapitalize="none"
             value={email}
             onChangeText={text => setEmail(text)}
-            onBlur={() => setError({email: validateEmail(email)})}
           />
-          <HelperText type="error" visible={error.email !== undefined}>
-            {error.email}
-          </HelperText>
           <TextInput
             textColor="#212121"
             outlineColor="#9e9e9e"
@@ -71,13 +69,9 @@ const LoginPage: FC<Props> = ({navigation}) => {
             autoCapitalize="none"
             secureTextEntry={hidePassword}
             onChangeText={text => setPassword(text)}
-            onBlur={() => setError({password: validatePassword(password)})}
           />
-          <HelperText type="error" visible={error.password !== undefined}>
-            {error.password}
-          </HelperText>
           <Button
-            disabled={!email || !password || !!error.email || !!error.password}
+            disabled={!email || !password}
             onPress={handleSignin}
             className="my-4"
             mode="contained"
@@ -86,10 +80,15 @@ const LoginPage: FC<Props> = ({navigation}) => {
             labelStyle={buttonTextStyles.buttonText}>
             Login
           </Button>
+          <View className="flex flex-row justify-center">
+            <HelperText type="error" visible={error !== null}>
+              {error}
+            </HelperText>
+          </View>
         </View>
         <View className="flex flex-row justify-center items-center">
           <Pressable onPress={() => navigation.navigate('Signup')}>
-            <Text>Not a registered user? Signup</Text>
+            <Text className="text-black">Not a registered user? Signup</Text>
           </Pressable>
         </View>
       </View>
