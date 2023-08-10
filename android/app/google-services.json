@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1039990595816",
+    "project_id": "bfit-187fe",
+    "storage_bucket": "bfit-187fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039990595816:android:ef1694a66323d9ddc5295d",
+        "android_client_info": {
+          "package_name": "com.simplifit.bfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039990595816-ckhj7tea5oejf74a2h3c9pr3ptm16ddp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7gnJK5feBmU59gm1yr4VSMgcXh2xw_-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039990595816-ckhj7tea5oejf74a2h3c9pr3ptm16ddp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

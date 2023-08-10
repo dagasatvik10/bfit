@@ -1,17 +1,25 @@
 #import "AppDelegate.h"
+#import <Firebase.h>
 
 #import <React/RCTBundleURLProvider.h>
+#import "RNSplashScreen.h" // splash screen
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
+  [FIRApp configure];
+  
   self.moduleName = @"bfit";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
-
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+  
+  [super application:application didFinishLaunchingWithOptions:launchOptions];
+  
+  [RNSplashScreen show];  // splash screen
+  return YES;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
