@@ -16,7 +16,7 @@ const LoginPage: FC<Props> = ({navigation}) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [signInUser] = useSignInUserMutation();
+  const [signInUser, {isLoading}] = useSignInUserMutation();
 
   const handleSignin = useCallback(async () => {
     let errorText =
@@ -77,6 +77,7 @@ const LoginPage: FC<Props> = ({navigation}) => {
             mode="contained"
             buttonColor="#f9c06c"
             textColor="#000000"
+            loading={isLoading}
             labelStyle={buttonTextStyles.buttonText}>
             Login
           </Button>
