@@ -15,7 +15,7 @@ export const imageApi = firestoreApi.injectEndpoints({
           const ref = storage().ref('activities');
           const listResult = await ref.list({
             pageToken: pageToken ?? undefined,
-            maxResults: 10,
+            maxResults: 8,
           });
           const images: Images = [];
           for (const item of listResult.items) {
