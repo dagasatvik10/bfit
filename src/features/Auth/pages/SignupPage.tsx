@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Linking, Pressable, StyleSheet, Text, View} from 'react-native';
 import {Button, HelperText, TextInput} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -7,6 +7,9 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../../../navigation/AuthStack';
 import {useCreateUserMutation} from '../../../slices/userSlice';
 import {validateEmail, validateName, validatePassword} from '../utils';
+
+const SIMPLIFIT_PRIVACY_POLICY_URL =
+  'https://www.simplifit.in/privacy-policy.html';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Signup'>;
 
@@ -85,7 +88,15 @@ const SignupPage: FC<Props> = ({navigation}) => {
             secureTextEntry={hidePassword}
             onChangeText={text => setPassword(text)}
           />
-
+          <View className="flex flex-row justify-center py-2">
+            <Text className="text-[#49454f]">
+              By signing up you agree to our{' '}
+            </Text>
+            <Pressable
+              onPress={() => Linking.openURL(SIMPLIFIT_PRIVACY_POLICY_URL)}>
+              <Text className="underline text-[#49454f]">Privacy Policy</Text>
+            </Pressable>
+          </View>
           <Button
             disabled={!email || !password || !name}
             onPress={handleSignup}
