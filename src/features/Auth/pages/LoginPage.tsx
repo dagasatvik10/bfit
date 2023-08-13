@@ -49,7 +49,7 @@ const LoginPage: FC<Props> = ({navigation}) => {
             inputMode="email"
             autoCapitalize="none"
             value={email}
-            onChangeText={text => setEmail(text)}
+            onChangeText={text => setEmail(text.toLowerCase())}
           />
           <TextInput
             textColor="#212121"
