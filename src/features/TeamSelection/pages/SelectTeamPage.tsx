@@ -10,7 +10,7 @@ import {useFetchTeamsQuery} from '../teamSlice';
 type Props = NativeStackScreenProps<TeamStackParamList, 'SelectTeam'>;
 
 export const SelectTeamPage: FC<Props> = ({navigation}) => {
-  const {data: allTeams = [], isSuccess} = useFetchTeamsQuery();
+  const {data: allTeams = [], isSuccess} = useFetchTeamsQuery('all');
 
   const sortedTeams = useMemo(
     () => sortTeamsByKey(allTeams.slice(), 'sortKey'),
@@ -52,7 +52,7 @@ export const SelectTeamPage: FC<Props> = ({navigation}) => {
           <View className="basis-1/4">
             <Pressable onPress={async () => spinWheel()}>
               <View className="rounded-full w-80 bg-[#f9c06c] items-center p-2">
-                <Text className="text-2xl font-bold text-black">Tap here</Text>
+                <Text className="text-xl font-bold text-black">Tap here</Text>
               </View>
             </Pressable>
           </View>
