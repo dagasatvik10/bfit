@@ -5,7 +5,10 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {AuthStackParamList} from '../../../navigation/AuthStack';
-import {useCreateUserMutation} from '../../../slices/userSlice';
+import {
+  useCreateUserMutation,
+  useLazyGetIsEmailApprovedQuery,
+} from '../../../slices/userSlice';
 import {validateEmail, validateName, validatePassword} from '../utils';
 
 const SIMPLIFIT_PRIVACY_POLICY_URL =
@@ -20,6 +23,7 @@ const SignupPage: FC<Props> = ({navigation}) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [getIsEmailApproved] = useLazyGetIsEmailApprovedQuery();
   const [createUser, {isLoading}] = useCreateUserMutation();
 
   const handleSignup = useCallback(async () => {
@@ -31,12 +35,19 @@ const SignupPage: FC<Props> = ({navigation}) => {
     setError(errorText);
     if (!errorText) {
       try {
-        await createUser({name, email, password}).unwrap();
+        // Only allow signup if email is approved
+        if (await getIsEmailApproved({email}).unwrap()) {
+          await createUser({name, email, password}).unwrap();
+        } else {
+          setError(
+            'You are not present in the challenge group. Please connect with HR to get yourself added.',
+          );
+        }
       } catch (e: any) {
         setError(e);
       }
     }
-  }, [createUser, name, email, password]);
+  }, [email, password, name, getIsEmailApproved, createUser]);
 
   return (
     <SafeAreaView className="container flex-1">

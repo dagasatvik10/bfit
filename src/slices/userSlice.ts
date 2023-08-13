@@ -8,6 +8,18 @@ import {User, UserActivities, UserActivity, Users} from '../types';
 export const usersApi = firestoreApi.injectEndpoints({
   overrideExisting: true,
   endpoints: builder => ({
+    getIsEmailApproved: builder.query<boolean, {email: string}>({
+      async queryFn({email}) {
+        try {
+          const ref = firestore().collection('approved_emails').doc(email);
+          const docSnapshot = await ref.get();
+          return {data: docSnapshot.exists};
+        } catch (error: any) {
+          console.error(error);
+          return {error: error.message};
+        }
+      },
+    }),
     getAuthUser: builder.query<User | null, void>({
       async queryFn() {
         try {
@@ -206,4 +218,5 @@ export const {
   useFetchUserActivityQuery,
   useFetchUserActivitiesQuery,
   useFetchUsersByTeamIdQuery,
+  useLazyGetIsEmailApprovedQuery,
 } = usersApi;
