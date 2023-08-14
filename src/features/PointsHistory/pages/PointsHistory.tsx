@@ -1,8 +1,9 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {FC, useMemo} from 'react';
-import {Image, Pressable, ScrollView, Text, View} from 'react-native';
+import React, {FC, useMemo, useState} from 'react';
+import {Image, Pressable, ScrollView, View} from 'react-native';
+import {Button, Dialog, Portal, Text} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import Header from '../../../components/layout/header';
@@ -12,7 +13,6 @@ import {
   useGetAuthUserQuery,
   useSignOutUserMutation,
 } from '../../../slices/userSlice';
-
 import {Activity} from '../../../types';
 import {getPreviousDate} from '../../../utils/date';
 import {
@@ -44,6 +44,12 @@ const PointsHistoryPage: FC<Props> = ({navigation}) => {
   const {data: selectedTeam} = useFetchTeamByTeamIdQuery(user?.teamId!, {
     refetchOnMountOrArgChange: true,
   });
+
+  const [visible, setVisible] = useState(false);
+
+  const showDialog = () => setVisible(true);
+
+  const hideDialog = () => setVisible(false);
 
   const [signOutUser] = useSignOutUserMutation();
 
@@ -101,10 +107,29 @@ const PointsHistoryPage: FC<Props> = ({navigation}) => {
           </View>
           <View className="border-[1px] border-[#e5e5e5] my-2" />
           <View className="flex flex-row justify-center my-2">
-            <Pressable onPress={() => signOutUser()}>
+            <Pressable onPress={() => signOutUser({shouldDelete: false})}>
               <Text className="text-[#616161] text-sm">Logout</Text>
             </Pressable>
           </View>
+          <View className="flex flex-row justify-center my-2">
+            <Pressable onPress={showDialog}>
+              <Text className="text-[#616161] text-sm">Delete Profile</Text>
+            </Pressable>
+          </View>
+          <Portal>
+            <Dialog visible={visible} onDismiss={hideDialog}>
+              <Dialog.Title>Delete Profile</Dialog.Title>
+              <Dialog.Content>
+                <Text variant="bodyMedium">Are you sure?</Text>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button onPress={hideDialog}>Cancel</Button>
+                <Button onPress={() => signOutUser({shouldDelete: true})}>
+                  Delete & Logout
+                </Button>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
         </View>
       </ScrollView>
     </SafeAreaView>

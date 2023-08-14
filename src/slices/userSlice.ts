@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-import {firestoreApi} from '../app/firestoreApi';
+import {TAG_TYPES, firestoreApi} from '../app/firestoreApi';
 import {onUserActivityAdd} from '../lib/activity';
 import {User, UserActivities, UserActivity, Users} from '../types';
 
@@ -19,6 +19,7 @@ export const usersApi = firestoreApi.injectEndpoints({
           return {error: error.message};
         }
       },
+      providesTags: ['ApprovedEmail'],
     }),
     getAuthUser: builder.query<User | null, void>({
       async queryFn() {
@@ -114,9 +115,17 @@ export const usersApi = firestoreApi.injectEndpoints({
       },
       invalidatesTags: ['User'],
     }),
-    signOutUser: builder.mutation<null, void>({
-      async queryFn() {
+    signOutUser: builder.mutation<null, {shouldDelete: boolean}>({
+      async queryFn({shouldDelete}) {
         try {
+          if (shouldDelete) {
+            const user = auth().currentUser;
+            if (user && user.email) {
+              const ref = firestore().collection('users').doc(user.email);
+              await ref.delete();
+              await user.delete();
+            }
+          }
           await auth().signOut();
           return {data: null};
         } catch (error: any) {
@@ -124,7 +133,7 @@ export const usersApi = firestoreApi.injectEndpoints({
           return {error: error.message};
         }
       },
-      invalidatesTags: ['User', 'UserActivity', 'Team', 'Image', 'Meta'],
+      invalidatesTags: TAG_TYPES,
     }),
     addUserActivity: builder.mutation<
       null,
