@@ -124,7 +124,10 @@ const PointsHistoryPage: FC<Props> = ({navigation}) => {
               </Dialog.Content>
               <Dialog.Actions>
                 <Button onPress={hideDialog}>Cancel</Button>
-                <Button onPress={() => signOutUser({shouldDelete: true})}>
+                <Button
+                  onPress={() =>
+                    signOutUser({shouldDelete: true, teamId: selectedTeam?.id})
+                  }>
                   Delete & Logout
                 </Button>
               </Dialog.Actions>

@@ -1,21 +1,23 @@
-import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-export function onUserSignIn(authUser: FirebaseAuthTypes.User) {
-  const userReference = firestore().doc(`users/${authUser.uid}`);
+export function onUserDelete(userId: string, teamId: string) {
+  const userRef = firestore().doc(`users/${userId}`);
+  const teamRef = firestore().doc(`teams/${teamId}`);
 
   return firestore().runTransaction(async transaction => {
-    const userSnapshot = await transaction.get(userReference);
+    const userSnapshot = await transaction.get(userRef);
+    const teamSnapshot = await transaction.get(teamRef);
 
-    if (userSnapshot.exists) {
-      throw new Error('User already exists!');
+    if (!userSnapshot.exists) {
+      throw new Error('User already deleted');
     }
+    const teamPoints = teamSnapshot.data()?.points;
+    const userPoints = userSnapshot.data()?.points;
 
-    transaction.set(userReference, {
-      email: authUser.email,
-      uid: authUser.uid,
-      name: authUser.displayName,
-      photoURL: authUser.photoURL,
+    // update team points
+    transaction.update(teamRef, {
+      points: teamPoints - userPoints,
     });
+    transaction.delete(userRef);
   });
 }

@@ -4,6 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 import {TAG_TYPES, firestoreApi} from '../app/firestoreApi';
 import {onUserActivityAdd} from '../lib/activity';
 import {User, UserActivities, UserActivity, Users} from '../types';
+import {onUserDelete} from '../lib/auth';
 
 export const usersApi = firestoreApi.injectEndpoints({
   overrideExisting: true,
@@ -115,14 +116,16 @@ export const usersApi = firestoreApi.injectEndpoints({
       },
       invalidatesTags: ['User'],
     }),
-    signOutUser: builder.mutation<null, {shouldDelete: boolean}>({
-      async queryFn({shouldDelete}) {
+    signOutUser: builder.mutation<
+      null,
+      {shouldDelete: boolean; teamId?: string}
+    >({
+      async queryFn({shouldDelete, teamId}) {
         try {
           if (shouldDelete) {
             const user = auth().currentUser;
-            if (user && user.email) {
-              const ref = firestore().collection('users').doc(user.email);
-              await ref.delete();
+            if (user && user.email && teamId) {
+              await onUserDelete(user.email, teamId);
               await user.delete();
             }
           }
