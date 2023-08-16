@@ -40,7 +40,7 @@ const SignupPage: FC<Props> = ({navigation}) => {
           await createUser({name, email, password}).unwrap();
         } else {
           setError(
-            'You are not present in the challenge group. Please connect with HR to get yourself added.',
+            'You are not present in the challenge group. Please contact Admin Support.',
           );
         }
       } catch (e: any) {
