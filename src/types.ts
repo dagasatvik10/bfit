@@ -3,6 +3,7 @@ export interface Team {
   id: string;
   name: string;
   points: number;
+  userCount: number;
   sortKey: number;
 }
 

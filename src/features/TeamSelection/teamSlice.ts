@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 
 import {firestoreApi} from '../../app/firestoreApi';
+import {onTeamSelection} from '../../lib/team';
 import {Team, Teams} from '../../types';
 
 export const teamsApi = firestoreApi.injectEndpoints({
@@ -42,15 +43,14 @@ export const teamsApi = firestoreApi.injectEndpoints({
       async queryFn(args) {
         try {
           const {teamId, userId} = args;
-          const ref = firestore().collection('users').doc(userId);
-          await ref.update({teamId});
+          await onTeamSelection(userId, teamId);
           return {data: null};
         } catch (error: any) {
           console.error(error.message);
           return {error: error.message};
         }
       },
-      invalidatesTags: ['User'],
+      invalidatesTags: ['User', 'Team'],
     }),
   }),
 });

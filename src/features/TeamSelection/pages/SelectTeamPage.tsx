@@ -6,8 +6,20 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {TeamStackParamList} from '../../../navigation/TeamStack';
 import {sortTeamsByKey} from '../../../utils';
 import {useFetchTeamsQuery} from '../teamSlice';
+import {Teams} from '../../../types';
 
 type Props = NativeStackScreenProps<TeamStackParamList, 'SelectTeam'>;
+
+function getRandomIndex(teams: Teams) {
+  const teamsSortedByUserCount = sortTeamsByKey(
+    teams.slice(),
+    'userCount',
+    'asc',
+  ).slice(0, 3);
+  console.log(teamsSortedByUserCount);
+  const index = Math.floor(Math.random() * teamsSortedByUserCount.length);
+  return teams.findIndex(team => team.id === teamsSortedByUserCount[index].id);
+}
 
 export const SelectTeamPage: FC<Props> = ({navigation}) => {
   const {data: allTeams = [], isSuccess} = useFetchTeamsQuery('all');
@@ -27,7 +39,7 @@ export const SelectTeamPage: FC<Props> = ({navigation}) => {
     });
 
     const spinWheel = () => {
-      const randomIndex = Math.floor(Math.random() * sortedTeams.length);
+      const randomIndex = getRandomIndex(sortedTeams);
       const selected = sortedTeams[randomIndex];
 
       Animated.timing(rotateAnimation, {
