@@ -17,7 +17,7 @@ type Props = CompositeScreenProps<
 
 const SelectionDonePage: FC<Props> = ({route}) => {
   const {team} = route.params;
-  const {data: user} = useGetAuthUserQuery();
+  const {data: user} = useGetAuthUserQuery('auth');
   const [setUserTeam] = useSetUserTeamMutation();
 
   return (

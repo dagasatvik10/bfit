@@ -7,7 +7,10 @@ type Props = {
   navigate: () => void;
 };
 const Header: FC<Props> = ({navigate}) => {
-  const {data: user} = useGetAuthUserQuery();
+  const {data: user} = useGetAuthUserQuery('auth', {
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+  });
   return (
     user && (
       <View className="flex flex-row justify-between pb-2">
@@ -30,7 +33,7 @@ const Header: FC<Props> = ({navigate}) => {
           className="flex flex-row w-1/3 justify-end items-center">
           <View className="flex flex-col justify-center items-center mr-1">
             <Text className="font-bold text-base text-black">
-              {user.points ?? 0}
+              {user.points}
             </Text>
             <Text className="text-sm text-black">Points</Text>
           </View>

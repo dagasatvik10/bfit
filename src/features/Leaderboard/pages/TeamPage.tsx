@@ -25,7 +25,7 @@ type Props = CompositeScreenProps<
 
 export const TeamPage: FC<Props> = ({route, navigation}) => {
   const {teamId} = route.params;
-  const {data: user} = useGetAuthUserQuery();
+  const {data: user} = useGetAuthUserQuery('auth');
   const {data: team} = useFetchTeamByTeamIdQuery(teamId, {
     refetchOnMountOrArgChange: true,
   });

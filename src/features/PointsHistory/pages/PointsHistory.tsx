@@ -33,7 +33,9 @@ const PointsHistoryPage: FC<Props> = ({navigation}) => {
     () => getPreviousDate(currentDate, 7),
     [currentDate],
   );
-  const {data: user} = useGetAuthUserQuery();
+  const {data: user} = useGetAuthUserQuery('auth', {
+    refetchOnMountOrArgChange: true,
+  });
   const {data: currentActivities = []} = useFetchCurrentActivitiesQuery({
     currentDate: currentDate.getTime(),
     previousDate: previousDate.getTime(),

@@ -23,7 +23,7 @@ type Props = CompositeScreenProps<
 >;
 
 const LeaderboardPage: FC<Props> = ({navigation}) => {
-  const {data: user} = useGetAuthUserQuery();
+  const {data: user} = useGetAuthUserQuery('auth');
   const {data: selectedTeamData} = useFetchTeamByTeamIdQuery(user?.teamId!);
   const {data: allTeams = []} = useFetchTeamsQuery('all', {
     refetchOnMountOrArgChange: true,

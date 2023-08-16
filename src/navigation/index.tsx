@@ -6,7 +6,9 @@ import {HomeTab} from './HomeTab';
 import {TeamStack} from './TeamStack';
 
 const Navigation: FC = () => {
-  const {data: user} = useGetAuthUserQuery();
+  const {data: user} = useGetAuthUserQuery('auth', {
+    refetchOnMountOrArgChange: true,
+  });
 
   if (!user) {
     return <AuthStack />;

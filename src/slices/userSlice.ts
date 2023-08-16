@@ -22,7 +22,7 @@ export const usersApi = firestoreApi.injectEndpoints({
       },
       providesTags: ['ApprovedEmail'],
     }),
-    getAuthUser: builder.query<User | null, void>({
+    getAuthUser: builder.query<User | null, 'auth'>({
       async queryFn() {
         try {
           const user = auth().currentUser;

@@ -31,7 +31,7 @@ export const CurrentActivity: FC<Props> = ({
   points,
   youtubeLink,
 }) => {
-  const {data: user} = useGetAuthUserQuery();
+  const {data: user} = useGetAuthUserQuery('auth');
   const {data: userActivity} = useFetchUserActivityQuery(
     {activityId: id},
     {refetchOnMountOrArgChange: true},
