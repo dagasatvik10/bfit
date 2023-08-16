@@ -13,7 +13,7 @@ import Navigation from './src/navigation';
 
 const codePushOptions = {
   checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
-  installMode: CodePush.InstallMode.IMMEDIATE,
+  installMode: CodePush.InstallMode.ON_NEXT_RESUME,
 };
 
 function App(): JSX.Element {
