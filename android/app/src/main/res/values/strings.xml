@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">bfit</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">bYID7TJ3LvGdSdFGA7OXhgT_aaE8yiXU24DIK</string>
 </resources>
