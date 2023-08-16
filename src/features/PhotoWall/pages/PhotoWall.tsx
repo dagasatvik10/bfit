@@ -1,6 +1,6 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import React, {FC, useState} from 'react';
-import {FlatList, Pressable, View} from 'react-native';
+import {FlatList, Pressable, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ImageView from 'react-native-image-viewing';
 
@@ -22,10 +22,14 @@ export const PhotoWallPage: FC<Props> = ({navigation}) => {
     visible: false,
   });
   const [pageToken, setPageToken] = useState<string>('');
-  const {data: imageData, isFetching} = useFetchImagesQuery(
+  const {
+    data: imageData,
+    isFetching,
+    refetch,
+  } = useFetchImagesQuery(
     {pageToken},
     {
-      refetchOnMountOrArgChange: true,
+      refetchOnMountOrArgChange: 5 * 60, // 5 min
     },
   );
 
@@ -39,6 +43,11 @@ export const PhotoWallPage: FC<Props> = ({navigation}) => {
       />
       <View className="flex flex-col ">
         <FlatList
+          ListEmptyComponent={
+            <View className="flex flex-col items-center py-10">
+              <Text className="text-black text-2xl">No Images Yet!</Text>
+            </View>
+          }
           ListHeaderComponent={
             <Header
               navigate={() =>
@@ -65,14 +74,17 @@ export const PhotoWallPage: FC<Props> = ({navigation}) => {
             </View>
           )}
           extraData={imageData?.images}
-          onRefresh={async () => setPageToken('')}
+          onRefresh={async () => {
+            setPageToken('');
+            await refetch().unwrap();
+          }}
           refreshing={isFetching}
           onEndReached={() => {
             if (imageData?.pageToken) {
               setPageToken(imageData.pageToken);
             }
           }}
-          onEndReachedThreshold={0.2}
+          onEndReachedThreshold={0.4}
         />
       </View>
     </SafeAreaView>
