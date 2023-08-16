@@ -65,12 +65,13 @@ export const usersApi = firestoreApi.injectEndpoints({
               createdAt: data.createdAt.toMillis(),
             } as User);
           });
-          return {data: users};
+          return {data: users.filter(user => user.excluded !== true)};
         } catch (error: any) {
           console.error(error);
           return {error: error.message};
         }
       },
+      providesTags: ['TeamUser'],
     }),
     createUser: builder.mutation<
       null,

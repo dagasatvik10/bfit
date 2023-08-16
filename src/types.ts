@@ -15,6 +15,7 @@ export interface User {
   points: number;
   teamId?: string | null;
   createdAt: number;
+  excluded?: boolean;
 }
 
 export type Users = User[];

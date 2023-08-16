@@ -8,6 +8,7 @@ export const TAG_TYPES = [
   'Image',
   'Meta',
   'ApprovedEmail',
+  'TeamUser',
 ];
 
 export const firestoreApi = createApi({

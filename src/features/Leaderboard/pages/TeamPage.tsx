@@ -26,8 +26,13 @@ type Props = CompositeScreenProps<
 export const TeamPage: FC<Props> = ({route, navigation}) => {
   const {teamId} = route.params;
   const {data: user} = useGetAuthUserQuery();
-  const {data: team} = useFetchTeamByTeamIdQuery(teamId);
-  const {data: users = []} = useFetchUsersByTeamIdQuery({teamId});
+  const {data: team} = useFetchTeamByTeamIdQuery(teamId, {
+    refetchOnMountOrArgChange: true,
+  });
+  const {data: users = []} = useFetchUsersByTeamIdQuery(
+    {teamId},
+    {refetchOnMountOrArgChange: true},
+  );
   const getUserColor = (u: User) =>
     u.id === user?.id ? 'text-[#018e89]' : 'text-[#424242]';
 
