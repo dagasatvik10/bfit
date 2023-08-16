@@ -7,7 +7,9 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "ota-ios": "appcenter codepush release-react -a dagasatvik10/bfit-ios -d Production",
+    "ota-android": "appcenter codepush release-react -a dagasatvik10/bfit-android -d Production"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.19.0",
