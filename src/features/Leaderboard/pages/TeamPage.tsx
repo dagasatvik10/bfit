@@ -87,7 +87,9 @@ export const TeamPage: FC<Props> = ({route, navigation}) => {
                           className={`text-[11px] ${getUserColor(
                             u,
                           )} font-normal`}>
-                          {u.points} Points
+                          {user?.teamId === teamId
+                            ? `${u.points} Points`
+                            : 'Not Available'}
                         </Text>
                       </View>
                     ))}
