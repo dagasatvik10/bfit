@@ -11,6 +11,7 @@ import {
   useFetchPastActivitiesQuery,
 } from '../activitySlice';
 import {getPreviousDate} from '../../../utils/date';
+import {IconButton} from 'react-native-paper';
 
 type Props = BottomTabScreenProps<RootTabParamList, 'Activities'>;
 
@@ -20,10 +21,11 @@ const ActivitiesPage: FC<Props> = ({navigation}) => {
     () => getPreviousDate(currentDate, 7),
     [currentDate],
   );
-  const {data: currentActivities = []} = useFetchCurrentActivitiesQuery({
-    currentDate: currentDate.getTime(),
-    previousDate: previousDate.getTime(),
-  });
+  const {data: currentActivities = [], refetch} =
+    useFetchCurrentActivitiesQuery({
+      currentDate: currentDate.getTime(),
+      previousDate: previousDate.getTime(),
+    });
   const {data: pastActivities = []} = useFetchPastActivitiesQuery({
     currentDate: currentDate.getTime(),
   });
@@ -40,8 +42,9 @@ const ActivitiesPage: FC<Props> = ({navigation}) => {
         />
         <View className="flex flex-col py-2">
           {/* Activities */}
-          <View className="flex flex-col justify-between items-start">
+          <View className="flex flex-row justify-start items-center">
             <Text className="text-black text-2xl font-bold">Activities</Text>
+            <IconButton icon="refresh" onPress={() => refetch()} />
           </View>
           {/* Current Activities */}
           <View className="py-2 flex flex-col justify-evenly">

@@ -9,7 +9,6 @@ type Props = {
 const Header: FC<Props> = ({navigate}) => {
   const {data: user} = useGetAuthUserQuery('auth', {
     refetchOnMountOrArgChange: true,
-    refetchOnFocus: true,
   });
   return (
     user && (

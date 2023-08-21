@@ -16,6 +16,7 @@ import {
   useFetchTeamByTeamIdQuery,
   useFetchTeamsQuery,
 } from '../../TeamSelection/teamSlice';
+import {IconButton} from 'react-native-paper';
 
 type Props = CompositeScreenProps<
   NativeStackScreenProps<LeaderboardStackParamList, 'Leaderboard'>,
@@ -25,7 +26,7 @@ type Props = CompositeScreenProps<
 const LeaderboardPage: FC<Props> = ({navigation}) => {
   const {data: user} = useGetAuthUserQuery('auth');
   const {data: selectedTeamData} = useFetchTeamByTeamIdQuery(user?.teamId!);
-  const {data: allTeams = []} = useFetchTeamsQuery('all', {
+  const {data: allTeams = [], refetch} = useFetchTeamsQuery('all', {
     refetchOnMountOrArgChange: true,
   });
 
@@ -50,8 +51,9 @@ const LeaderboardPage: FC<Props> = ({navigation}) => {
         />
         <View className="flex flex-col py-2">
           {/* Leaderboard */}
-          <View className="py-2 flex flex-col justify-between items-start">
+          <View className="py-2 flex flex-row justify-start items-center">
             <Text className="text-black text-2xl font-bold">Leaderboard</Text>
+            <IconButton icon="refresh" onPress={() => refetch()} />
           </View>
           <View className="py-2 flex flex-col justify-evenly">
             <Text className="text-[#424242] text-base font-bold">
