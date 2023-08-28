@@ -1,6 +1,8 @@
 import React, {FC} from 'react';
 import {Image, Text, View} from 'react-native';
 
+import {useFetchUserActivityQuery} from '../../slices/userSlice';
+
 interface Props {
   id: string;
   title: string;
@@ -9,8 +11,11 @@ interface Props {
   youtubeLink?: string;
 }
 
-export const PastActivity: FC<Props> = ({title, description, points}) => {
-  const done = false;
+export const PastActivity: FC<Props> = ({id, title, description, points}) => {
+  const {data: userActivity} = useFetchUserActivityQuery(
+    {activityId: id},
+    {refetchOnMountOrArgChange: true},
+  );
   return (
     <View className="my-4 py-4 bg-[#fef8f1] h-48 rounded-2xl shadow flex flex-col justify-between w-full">
       <View className="flex flex-row justify-start px-4 py-2">
@@ -27,9 +32,9 @@ export const PastActivity: FC<Props> = ({title, description, points}) => {
         <Image source={require('../../assets/images/coin.webp')} />
         <Text
           className={`pl-2 text-sm ${
-            done ? 'text-[#018e89]' : 'text-[#ff4c02]'
+            userActivity?.completed ? 'text-[#018e89]' : 'text-[#ff4c02]'
           } font-normal`}>
-          {done
+          {userActivity?.completed
             ? `You have earned ${points} points`
             : `You have missed ${points} points`}
         </Text>
