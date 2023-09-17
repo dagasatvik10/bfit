@@ -15,14 +15,9 @@ import {
   useGetAuthUserQuery,
 } from '../../slices/userSlice';
 import SquareImage from '../atoms/SquareImage';
+import {Activity} from '../../types';
 
-interface Props {
-  id: string;
-  title: string;
-  description: string;
-  points: number;
-  youtubeLink?: string;
-}
+type Props = Omit<Activity, 'start' | 'end'>;
 
 export const CurrentActivity: FC<Props> = ({
   id,
@@ -30,6 +25,7 @@ export const CurrentActivity: FC<Props> = ({
   description,
   points,
   youtubeLink,
+  isImageRequired,
 }) => {
   const {data: user} = useGetAuthUserQuery('auth');
   const {data: userActivity} = useFetchUserActivityQuery(
@@ -148,7 +144,10 @@ export const CurrentActivity: FC<Props> = ({
               />
             </View>
             <Pressable
-              className="flex flex-row items-center justify-center w-3/4"
+              className={`flex flex-row items-center justify-center w-3/4 ${
+                isImageRequired && 'opacity-50'
+              }`}
+              disabled={isImageRequired}
               onPress={() =>
                 addUserActivity({
                   activityId: id,

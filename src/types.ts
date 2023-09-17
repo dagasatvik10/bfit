@@ -29,6 +29,7 @@ export interface Activity {
   points: number;
   start: number; // timestamp
   end: number; // timestamp
+  isImageRequired?: boolean;
 }
 
 export type Activities = Activity[];
