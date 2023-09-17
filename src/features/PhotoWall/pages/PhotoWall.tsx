@@ -7,7 +7,7 @@ import ImageView from 'react-native-image-viewing';
 import SquareImage from '../../../components/atoms/SquareImage';
 import Header from '../../../components/layout/header';
 import {RootTabParamList} from '../../../navigation/HomeTab';
-import {useFetchImagesQuery} from '../slices/imageSlice';
+import {useFetchImagesQuery} from '../../../slices/imageSlice';
 
 type Props = BottomTabScreenProps<RootTabParamList, 'PhotoWall'>;
 

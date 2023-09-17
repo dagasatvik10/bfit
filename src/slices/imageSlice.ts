@@ -1,11 +1,27 @@
 import storage from '@react-native-firebase/storage';
 
-import {firestoreApi} from '../../../app/firestoreApi';
-import {Images} from '../../../types';
+import {firestoreApi} from '../app/firestoreApi';
+import {Images} from '../types';
 
 export const imageApi = firestoreApi.injectEndpoints({
   overrideExisting: true,
   endpoints: builder => ({
+    uploadImage: builder.mutation<
+      null,
+      {activityTitle: string; email: string; uri: string}
+    >({
+      async queryFn({activityTitle, email, uri}) {
+        try {
+          const ref = storage().ref(`activities/${email}-${activityTitle}.jpg`);
+          await ref.putFile(uri);
+          return {data: null};
+        } catch (error: any) {
+          console.error(error);
+          return {error: error.message};
+        }
+      },
+      invalidatesTags: ['Image'],
+    }),
     fetchImages: builder.query<
       {images: Images; pageToken: string | null},
       {pageToken: string | null}
@@ -48,4 +64,4 @@ export const imageApi = firestoreApi.injectEndpoints({
   }),
 });
 
-export const {useFetchImagesQuery} = imageApi;
+export const {useFetchImagesQuery, useUploadImageMutation} = imageApi;

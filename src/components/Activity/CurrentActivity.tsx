@@ -1,4 +1,3 @@
-import storage from '@react-native-firebase/storage';
 import React, {FC} from 'react';
 import {Image, Linking, Pressable, Text, View} from 'react-native';
 import {
@@ -16,6 +15,7 @@ import {
 } from '../../slices/userSlice';
 import SquareImage from '../atoms/SquareImage';
 import {Activity} from '../../types';
+import {useUploadImageMutation} from '../../slices/imageSlice';
 
 type Props = Omit<Activity, 'start' | 'end'>;
 
@@ -32,7 +32,10 @@ export const CurrentActivity: FC<Props> = ({
     {activityId: id},
     {refetchOnMountOrArgChange: true},
   );
-  const [addUserActivity] = useAddUserActivityMutation();
+  const [addUserActivity, {isLoading: isAddUserActivityLoading}] =
+    useAddUserActivityMutation();
+  const [uploadImage, {isLoading: isUploadImageLoading}] =
+    useUploadImageMutation();
 
   const [showImagePicker, setShowImagePicker] = React.useState(false);
   const [image, setImage] = React.useState<Asset | null>(null);
@@ -55,8 +58,6 @@ export const CurrentActivity: FC<Props> = ({
     }
   };
 
-  const reference = storage().ref(`activities/${user?.id}-${Date.now()}.jpg`);
-
   return (
     <View className="my-4 py-4 px-4 bg-[#fef8f1] h-48 rounded-2xl shadow flex flex-col justify-between w-full">
       <Portal>
@@ -72,8 +73,13 @@ export const CurrentActivity: FC<Props> = ({
                 </View>
                 <View className="flex flex-row justify-center pt-2">
                   <Button
+                    loading={isUploadImageLoading || isAddUserActivityLoading}
                     onPress={async () => {
-                      await reference.putFile(image?.uri!);
+                      await uploadImage({
+                        activityTitle: title,
+                        email: user?.id!,
+                        uri: image?.uri!,
+                      }).unwrap();
                       await addUserActivity({
                         activityId: id,
                         points,
